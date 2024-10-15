@@ -113,8 +113,8 @@ textarea.form-control {
 .site-header {
   position: fixed;
   top: 0;
-  width: 100%;
-  padding: 60px 0;
+  /* width: 100%; */
+  padding: 25px 0;
   z-index: 2;
   -webkit-transition: 0.3s all ease-in-out;
   -o-transition: 0.3s all ease-in-out;
@@ -158,9 +158,10 @@ textarea.form-control {
   border: 10px solid #f8f9fa;
 }
 
-.site-logo {
+/* .site-logo {
   padding-left: 40px;
-}
+} */
+
 .site-logo a {
   font-size: 30px;
   color: #fff;
@@ -233,7 +234,7 @@ textarea.form-control {
 
 .site-hero {
   background-size: cover;
-  height: 89vh;
+  height: 100vh;
   min-height: 700px;
   width: 100%;
   position: relative;
@@ -255,7 +256,7 @@ textarea.form-control {
   background: rgba(0, 0, 0, 0.45);
   content: "";
   position: absolute;
-  height: 89vh;
+  height: 100vh;
   min-height: 700px;
   top: 0;
   left: 0;
@@ -272,11 +273,11 @@ textarea.form-control {
 }
 
 .site-hero-inner {
-  height: 89vh;
+  height: 100vh;
   min-height: 700px;
 }
 .site-hero-inner .heading {
-  font-size: 80px;
+  font-size: 60px;
   font-family: "Playfair Display", times, serif;
   color: #fff;
   line-height: 1;
@@ -389,7 +390,7 @@ textarea.form-control {
 }
 
 .section {
-  padding: 7em 0;
+  padding: 5em 0;
 }
 @media (max-width: 991.98px) {
   .section {
@@ -1184,7 +1185,7 @@ textarea.form-control {
 }
 .block-32 .field-icon-wrap .form-control {
   position: relative;
-  padding-right: 40px;
+  padding-right: 12px;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   color: #a6a6a6;
@@ -1417,7 +1418,7 @@ textarea.form-control {
 }
 
 .check-availabilty {
-  margin-top: -370px;
+  margin-top: -420px;
   position: relative;
 }
 .check-availabilty .block-32 {

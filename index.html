@@ -36,17 +36,22 @@
       <div class="container-fluid">
         <div class="row align-items-center">
           <div class="col-6 col-lg-4 site-logo" data-aos="fade">
-            <a href="index.html">Sogo Hotel</a>
+            <a href="index.html">
+              <img
+                src="/images/logo_resenbooking.png"
+                class="img-fluid w-50"
+                alt=""
+              />
+            </a>
           </div>
-          <div class="col-6 col-lg-8">
-            <div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">
+          <div class="col-6 col-lg-8 d-flex justify-content-end">
+            <!-- <div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">
               <span></span>
               <span></span>
               <span></span>
-            </div>
-            <!-- END menu-toggle -->
+            </div> -->
 
-            <div class="site-navbar js-site-navbar">
+            <!-- <div class="site-navbar js-site-navbar">
               <nav role="navigation">
                 <div class="container">
                   <div class="row full-height align-items-center">
@@ -63,7 +68,11 @@
                   </div>
                 </div>
               </nav>
-            </div>
+            </div> -->
+
+            <button class="btn btn-outline-warning text-white btn-sm">
+              Login or Create Account
+            </button>
           </div>
         </div>
       </div>
@@ -79,21 +88,14 @@
         <div
           class="row site-hero-inner justify-content-center align-items-center"
         >
-          <div class="col-md-10 text-center" data-aos="fade-up">
+          <div class="col-md-10 text-center pb-4" data-aos="fade-up">
             <span class="custom-caption text-uppercase text-white d-block mb-3"
-              >Welcome To 5
-              <span class="fa fa-star text-primary"></span> Hotel</span
+              >Welcome To ReisenBooking</span
             >
-            <h1 class="heading">A Best Place To Stay</h1>
+            <h1 class="heading">Find Best Places To Stay</h1>
           </div>
         </div>
       </div>
-
-      <!-- <a class="mouse smoothscroll" href="#next">
-        <div class="mouse-icon">
-          <span class="mouse-wheel"></span>
-        </div>
-      </a> -->
     </section>
     <!-- END section -->
 
@@ -103,33 +105,48 @@
           <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
             <form action="#">
               <div class="row">
-                <div class="col-md-6 mb-3 mb-lg-0 col-lg-4">
+                <div class="col-md-6 mb-3 px-2 mb-lg-0 col-lg-2">
+                  <label for="location" class="font-weight-bold text-black"
+                    >Location</label
+                  >
+                  <div class="field-icon-wrap">
+                    <div class="icon"><span class="icon-calendar"></span></div>
+                    <input
+                      type="text"
+                      id="location"
+                      class="form-control"
+                      placeholder="Enter location"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3 px-2 mb-lg-0 col-lg-2">
                   <label for="checkin_date" class="font-weight-bold text-black"
                     >Check In</label
                   >
                   <div class="field-icon-wrap">
                     <div class="icon"><span class="icon-calendar"></span></div>
-                    <input type="text" id="checkin_date" class="form-control" />
+                    <input type="date" id="checkin_date" class="form-control" />
                   </div>
                 </div>
 
-                <div class="col-md-6 mb-3 mb-lg-0 col-lg-4">
+                <div class="col-md-6 mb-3 px-2 mb-lg-0 col-lg-2">
                   <label for="checkout_date" class="font-weight-bold text-black"
                     >Check Out</label
                   >
                   <div class="field-icon-wrap">
                     <div class="icon"><span class="icon-calendar"></span></div>
                     <input
-                      type="text"
+                      type="date"
                       id="checkout_date"
                       class="form-control"
                     />
                   </div>
                 </div>
 
-                <div class="col-md-6 mb-3 mb-md-0 col-lg-4">
+                <div class="col-md-6 mb-3 mb-md-0 col-lg-3">
                   <div class="row">
-                    <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="col-md-6 px-2 mb-3 mb-md-0">
                       <label for="adults" class="font-weight-bold text-black"
                         >Adults</label
                       >
@@ -145,7 +162,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="col-md-6 px-2 mb-3 mb-md-0">
                       <label for="children" class="font-weight-bold text-black"
                         >Children</label
                       >
@@ -164,7 +181,9 @@
                   </div>
                 </div>
 
-                <div class="col-md-6 col-lg-3 mt-3 align-self-end">
+                <div
+                  class="col-md-6 mt-3 px-2 btn-sm col-lg-3 align-self-end text-center"
+                >
                   <button class="btn btn-primary btn-block text-white">
                     Check Availabilty
                   </button>
@@ -180,7 +199,7 @@
       <div class="container">
         <div class="row align-items-center">
           <div
-            class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5"
+            class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5 mt-lg-0 mt-md-4 mt-5"
             data-aos="fade-up"
           >
             <figure class="img-absolute">
@@ -188,6 +207,7 @@
             </figure>
             <img src="images/img_1.jpg" alt="Image" class="img-fluid rounded" />
           </div>
+
           <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
             <h2 class="heading">Welcome!</h2>
             <p class="mb-4">
