@@ -140,6 +140,12 @@ textarea.form-control {
 .site-header.scrolled .site-logo a {
   color: #000;
 }
+.btn-sm {
+  color: white;
+}
+.site-header.scrolled button {
+  color: #000;
+}
 
 .menu-open {
   position: relative;
@@ -1247,11 +1253,11 @@ textarea.form-control {
   -moz-transition: 0.6s;
   -o-transition: 0.6s;
 
-  transform-style: preserve-3d; 
+  transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
-  
+
   position: relative;
 }
 
