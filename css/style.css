@@ -164,10 +164,6 @@ textarea.form-control {
   border: 10px solid #f8f9fa;
 }
 
-/* .site-logo {
-  padding-left: 40px;
-} */
-
 .site-logo a {
   font-size: 30px;
   color: #fff;
@@ -270,11 +266,11 @@ textarea.form-control {
   right: 0;
 }
 .site-hero.inner-page {
-  height: 50vh;
+  height: 100vh;
   min-height: 700px;
 }
 .site-hero.inner-page.overlay:before {
-  height: 50vh;
+  height: 100vh;
   min-height: 700px;
 }
 
@@ -396,7 +392,7 @@ textarea.form-control {
 }
 
 .section {
-  padding: 5em 0;
+  padding: 4em 0;
 }
 @media (max-width: 991.98px) {
   .section {
@@ -1424,7 +1420,7 @@ textarea.form-control {
 }
 
 .check-availabilty {
-  margin-top: -420px;
+  margin-top: -370px;
   position: relative;
 }
 .check-availabilty .block-32 {
