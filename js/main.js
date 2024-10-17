@@ -210,11 +210,18 @@
 
 })(jQuery);
 
-
 const overlay = document.getElementById('overlay');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 
+window.onload = function () {
+  setTimeout(function () {
+    overlay.style.display = 'block';
+    loginForm.classList.remove('d-none');
+    loginForm.classList.add('d-block');
+    document.body.style.overflow = 'hidden';
+  }, 3000);
+};
 
 document.getElementById('login-signup-btn').addEventListener('click', function () {
   overlay.style.display = 'block';
@@ -234,7 +241,6 @@ overlay.addEventListener('click', function () {
   // Re-enable scroll
   document.body.style.overflow = 'auto';
 });
-
 
 function closeForm() {
   overlay.style.display = 'none';
@@ -268,16 +274,21 @@ document.getElementById('toLogin').addEventListener('click', () => {
 
 });
 
-// calling api
+const signup_Form = document.getElementById('signup-form_');
+const verify_Form = document.getElementById('verify-form_');
+
+let form;
+let email;
 
 // Optimized function to send form data as JSON
-async function sendFormDataAsJSON(formId, url, message) {
+async function sendFormDataAsJSON(formId, url) {
   try {
-    const form = document.getElementById(formId);
+    form = document.getElementById(formId);
     const formData = new FormData(form);
 
     // Convert FormData to JSON
     const formDataJSON = Object.fromEntries(formData.entries());
+    email = formDataJSON.email;
 
     // Send the JSON data using fetch
     const response = await fetch(url, {
@@ -293,11 +304,8 @@ async function sendFormDataAsJSON(formId, url, message) {
     }
 
     const data = await response.json();
-    console.log('Success:', data);
-    closeForm();
-    form.reset();
-    document.body.style.overflow = 'auto';
-    alert(data.message || message);
+    // console.log('Success:', data);
+    return data;
 
   } catch (error) {
     console.error('Submission error:', error);
@@ -305,22 +313,69 @@ async function sendFormDataAsJSON(formId, url, message) {
   }
 };
 
+// function to verify otp
+async function verifyOTP(data_, url) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data_)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    // console.log('Success:', data);
+    return data;
+  } catch (error) {
+    console.log('Error verifying OTP!', error);
+  }
+};
+
 // singup
 document.getElementById('signup-form_').addEventListener('submit', async function (event) {
   event.preventDefault();
-  await sendFormDataAsJSON(
+  const data = await sendFormDataAsJSON(
     'signup-form_',
     'https://sogo-backend.onrender.com/api/user/signup',
-    'Account created successful..!'
   );
+  if (data) {
+    signup_Form.classList.add('d-none');
+    verify_Form.classList.remove('d-none');
+    verify_Form.classList.add('d-block');
+    alert(data.message);
+  }
 });
 
 // login
 document.getElementById('login-form').addEventListener('submit', async function (event) {
   event.preventDefault();
-  await sendFormDataAsJSON(
+  const data = await sendFormDataAsJSON(
     'login-form',
     'https://sogo-backend.onrender.com/api/user/login',
-    'Logged in successful...!'
   );
+  if (data) {
+    closeForm();
+    form.reset();
+    document.body.style.overflow = 'auto';
+    alert(data.message);
+  }
+});
+
+// verify button
+document.getElementById('verify-btn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  const otp = document.getElementById('otp').value;
+
+  const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
+  if (data) {
+    closeForm();
+    form.reset();
+    document.body.style.overflow = 'auto';
+    alert(data.message);
+  }
 });
