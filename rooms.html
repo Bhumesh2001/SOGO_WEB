@@ -232,7 +232,7 @@
       <div class="container">
         <div class="row check-availabilty" id="next">
           <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-            <form action="#">
+            <form>
               <div class="row">
                 <div class="col-md-6 mb-3 px-2 mb-lg-0 col-lg-2">
                   <label for="location" class="font-weight-bold text-black"
@@ -245,6 +245,7 @@
                       id="location"
                       class="form-control"
                       placeholder="Enter location"
+                      required
                     />
                   </div>
                 </div>
@@ -255,7 +256,12 @@
                   >
                   <div class="field-icon-wrap">
                     <div class="icon"><span class="icon-calendar"></span></div>
-                    <input type="date" id="checkin_date" class="form-control" />
+                    <input
+                      type="date"
+                      id="checkin_date"
+                      class="form-control"
+                      required
+                    />
                   </div>
                 </div>
 
@@ -269,6 +275,7 @@
                       type="date"
                       id="checkout_date"
                       class="form-control"
+                      required
                     />
                   </div>
                 </div>
@@ -311,7 +318,7 @@
                 </div>
 
                 <div class="col-md-6 px-2 col-lg-3 align-self-end">
-                  <button class="btn btn-primary btn-block text-white">
+                  <button class="btn btn-primary btn-block text-white" id="search-availability">
                     Check Availabilty
                   </button>
                 </div>
@@ -322,9 +329,9 @@
       </div>
     </section>
 
-    <section class="section py-3">
+    <section class="section py-3 rooms">
       <div class="container">
-        <div class="row">
+        <div class="row" id="room-container">
           <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
             <a href="#" class="room">
               <figure class="img-wrap">

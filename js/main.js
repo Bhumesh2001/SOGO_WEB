@@ -208,6 +208,12 @@ const overlay = document.getElementById('overlay');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 
+const signup_Form = document.getElementById('signup-form_');
+const verify_Form = document.getElementById('verify-form_');
+
+let form;
+let email;
+
 document.getElementById('login-signup-btn').addEventListener('click', function () {
   overlay.style.display = 'block';
   loginForm.classList.remove('d-none');
@@ -258,12 +264,6 @@ document.getElementById('toLogin').addEventListener('click', () => {
   loginForm.classList.add('d-block');
 
 });
-
-const signup_Form = document.getElementById('signup-form_');
-const verify_Form = document.getElementById('verify-form_');
-
-let form;
-let email;
 
 // Optimized function to send form data as JSON
 async function sendFormDataAsJSON(formId, url) {
@@ -328,7 +328,7 @@ document.getElementById('signup-form_').addEventListener('submit', async functio
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'signup-form_',
-    'https://sogo-backend.onrender.com/api/user/signup',
+    'http://localhost:5001/api/user/signup',
   );
   if (data) {
     signup_Form.classList.add('d-none');
@@ -343,7 +343,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'login-form',
-    'https://sogo-backend.onrender.com/api/user/login',
+    'http://localhost:5001/api/user/login',
   );
   if (data) {
     closeForm();
@@ -358,7 +358,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const otp = document.getElementById('otp').value;
 
-  const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
+  const data = await verifyOTP({ email, otp }, 'http://localhost:5001/api/user/verify-otp');
   if (data) {
     closeForm();
     form.reset();
@@ -369,7 +369,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
 
 // popup signup form
 window.onload = async function () {
-  const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
+  const response = await fetch('http://localhost:5001/api/user/check-login', {
     method: 'GET',
     credentials: 'include'
   });
@@ -385,3 +385,58 @@ window.onload = async function () {
     document.body.style.overflow = 'hidden';
   }, 3000);
 };
+
+// search availability rooms
+document.getElementById('search-availability').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  try {
+
+    const location = document.getElementById('location').value;
+    const checkIn = document.getElementById('checkin_date').value;
+    const checkOut = document.getElementById('checkout_date').value;
+
+    if (!location || !checkIn || !checkOut) {
+      return;
+    }
+
+    const response = await fetch('http://localhost:5001/api/room');
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log('Available rooms:', result);
+      generateRoomCards(result);
+      window.location.hash = 'rooms_';
+    } else {
+      console.error('Error fetching availability:', result);
+    }
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
+// Function to generate room cards dynamically
+function generateRoomCards(rooms) {
+  const roomContainer = document.getElementById('room-container');
+  roomContainer.innerHTML = ''; // Clear previous room cards
+
+  rooms.forEach(room => {
+    const roomCard = document.createElement('div');
+    roomCard.className = 'col-md-6 col-lg-4 mb-5';
+    roomCard.setAttribute('data-aos', 'fade-up');
+
+    roomCard.innerHTML = `
+      <a href="#" class="room">
+        <figure class="img-wrap">
+          <img src="${room.images[0]}" alt="${room.roomType}" class="img-fluid mb-3" />
+        </figure>
+        <div class="p-3 text-center room-info">
+          <h2>${room.roomType} Room</h2>
+          <span class="text-uppercase letter-spacing-1">${room.price}$ / per night</span>
+        </div>
+      </a>
+    `;
+
+    roomContainer.appendChild(roomCard);
+  });
+}

@@ -135,7 +135,11 @@
             <div class="text-center mt-3">
               <p>
                 Already have an account?
-                <a class="text-decoration-none text-dark" draggable="false" id="toLogin" href="#"
+                <a
+                  class="text-decoration-none text-dark"
+                  draggable="false"
+                  id="toLogin"
+                  href="#"
                   >Log in</a
                 >
               </p>
@@ -167,11 +171,16 @@
             </div>
 
             <div class="mb-3 text-center">
-              <button type="submit" id="verify-btn" class="btn btn-primary">Verify</button>
+              <button type="submit" id="verify-btn" class="btn btn-primary">
+                Verify
+              </button>
             </div>
 
             <div class="text-center">
-              <p>Didn't receive the OTP? <a draggable="false" href="#">Resend OTP</a></p>
+              <p>
+                Didn't receive the OTP?
+                <a draggable="false" href="#">Resend OTP</a>
+              </p>
             </div>
           </form>
         </div>
@@ -226,7 +235,11 @@
 
             <div class="text-center mt-3">
               <p>
-                <a class="text-decoration-none text-dark" draggable="false" id="toSignup" href="#"
+                <a
+                  class="text-decoration-none text-dark"
+                  draggable="false"
+                  id="toSignup"
+                  href="#"
                   >Create an account</a
                 >
               </p>
@@ -237,6 +250,7 @@
     </section>
 
     <section
+      cllass="site-overlay"
       class="site-hero overlay"
       style="
         background-image: url(images/hero_4.jpg);
@@ -263,7 +277,7 @@
       <div class="container">
         <div class="row check-availabilty" id="next">
           <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
-            <form action="#">
+            <form id="search-availability">
               <div class="row">
                 <div class="col-md-6 mb-3 px-2 mb-lg-0 col-lg-2">
                   <label for="location" class="font-weight-bold text-black"
@@ -276,6 +290,7 @@
                       id="location"
                       class="form-control"
                       placeholder="Enter location"
+                      required
                     />
                   </div>
                 </div>
@@ -286,7 +301,12 @@
                   >
                   <div class="field-icon-wrap">
                     <div class="icon"><span class="icon-calendar"></span></div>
-                    <input type="date" id="checkin_date" class="form-control" />
+                    <input
+                      type="date"
+                      id="checkin_date"
+                      required
+                      class="form-control"
+                    />
                   </div>
                 </div>
 
@@ -300,6 +320,7 @@
                       type="date"
                       id="checkout_date"
                       class="form-control"
+                      required
                     />
                   </div>
                 </div>
@@ -393,7 +414,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="rooms_">
       <div class="container">
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-7">
@@ -406,7 +427,7 @@
             </p>
           </div>
         </div>
-        <div class="row">
+        <div class="row" id="room-container">
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="#" class="room">
               <figure class="img-wrap">
