@@ -328,7 +328,7 @@ document.getElementById('signup-form_').addEventListener('submit', async functio
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'signup-form_',
-    'http://localhost:5001/api/user/signup',
+    'https://sogo-backend.onrender.com/api/user/signup',
   );
   if (data) {
     signup_Form.classList.add('d-none');
@@ -343,7 +343,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'login-form',
-    'http://localhost:5001/api/user/login',
+    'https://sogo-backend.onrender.com/api/user/login',
   );
   if (data) {
     closeForm();
@@ -358,7 +358,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const otp = document.getElementById('otp').value;
 
-  const data = await verifyOTP({ email, otp }, 'http://localhost:5001/api/user/verify-otp');
+  const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
   if (data) {
     closeForm();
     form.reset();
@@ -369,7 +369,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
 
 // popup signup form
 window.onload = async function () {
-  const response = await fetch('http://localhost:5001/api/user/check-login', {
+  const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
     method: 'GET',
     credentials: 'include'
   });
@@ -399,7 +399,7 @@ document.getElementById('search-availability').addEventListener('submit', async 
       return;
     }
 
-    const response = await fetch('http://localhost:5001/api/room');
+    const response = await fetch('https://sogo-backend.onrender.com/api/room');
     const result = await response.json();
 
     if (response.ok) {
