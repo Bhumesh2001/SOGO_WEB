@@ -1,5 +1,4 @@
 (function ($) {
-
   'use strict';
 
   $('.site-menu-toggle').click(function () {
@@ -15,7 +14,6 @@
     }
   });
 
-
   $('nav .dropdown').hover(function () {
     var $this = $(this);
     $this.addClass('show');
@@ -27,8 +25,6 @@
     $this.find('> a').attr('aria-expanded', false);
     $this.find('.dropdown-menu').removeClass('show');
   });
-
-
 
   $('#dropdown04').on('show.bs.dropdown', function () {
     console.log('show');
@@ -166,7 +162,6 @@
   // };
   // dateAndTime();
 
-
   var windowScroll = function () {
 
     $(window).scroll(function () {
@@ -180,7 +175,6 @@
 
   };
   windowScroll();
-
 
   var goToTop = function () {
 
@@ -213,15 +207,6 @@
 const overlay = document.getElementById('overlay');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
-
-window.onload = function () {
-  setTimeout(function () {
-    overlay.style.display = 'block';
-    loginForm.classList.remove('d-none');
-    loginForm.classList.add('d-block');
-    document.body.style.overflow = 'hidden';
-  }, 3000);
-};
 
 document.getElementById('login-signup-btn').addEventListener('click', function () {
   overlay.style.display = 'block';
@@ -296,6 +281,7 @@ async function sendFormDataAsJSON(formId, url) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(formDataJSON)
     });
 
@@ -321,6 +307,7 @@ async function verifyOTP(data_, url) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(data_)
     });
 
@@ -379,3 +366,22 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
     alert(data.message);
   }
 });
+
+// popup signup form
+window.onload = async function () {
+  const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
+    method: 'GET',
+    credentials: 'include'
+  });
+
+  if (response.ok) {
+    return;
+  }
+
+  setTimeout(function () {
+    overlay.style.display = 'block';
+    loginForm.classList.remove('d-none');
+    loginForm.classList.add('d-block');
+    document.body.style.overflow = 'hidden';
+  }, 3000);
+};
