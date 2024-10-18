@@ -261,6 +261,7 @@
       </div>
     </section>
 
+    <!-- overlay heading -->
     <section
       class="site-hero inner-page overlay"
       style="background-image: url(images/hero_4.jpg)"
@@ -271,149 +272,79 @@
           class="row site-hero-inner justify-content-center align-items-center"
         >
           <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">Reservation Form</h1>
-            <ul class="custom-breadcrumbs mb-4">
+            <h1 class="heading mb-3">Room</h1>
+            <ul class="custom-breadcrumbs mb-4 pb-5">
               <li><a href="index.html">Home</a></li>
               <li>&bullet;</li>
-              <li>Reservation</li>
+              <li>Room</li>
             </ul>
           </div>
         </div>
       </div>
-
-      <!-- <a class="mouse smoothscroll" href="#next">
-        <div class="mouse-icon">
-          <span class="mouse-wheel"></span>
-        </div>
-      </a> -->
     </section>
-    <!-- END section -->
 
-    <section class="section contact-section" id="next">
+    <section class="section room-details-section" id="next">
       <div class="container">
         <div class="row">
-          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
-            <form
-              action="#"
-              method="post"
-              class="bg-white p-md-5 p-4 mb-5 border"
-            >
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label class="text-black font-weight-bold" for="name"
-                    >Name</label
-                  >
-                  <input type="text" id="name" class="form-control" />
-                </div>
-                <div class="col-md-6 form-group">
-                  <label class="text-black font-weight-bold" for="phone"
-                    >Phone</label
-                  >
-                  <input type="text" id="phone" class="form-control" />
-                </div>
-              </div>
+          <!-- Hotel Info -->
+          <div class="col-md-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="hotel-details bg-white p-md-5 p-4 mb-5 border">
+              <h2 class="text-black font-weight-bold" id="hotel-name"></h2>
+              <p id="hotel-description"></p>
+              <p class="text-black font-weight-bold">
+                Address: <span id="hotel-address"></span>
+              </p>
+              <p class="text-black font-weight-bold">
+                Phone: <span id="hotel-phone"></span>
+              </p>
+              <p class="text-black font-weight-bold">
+                Email: <span id="hotel-email"></span>
+              </p>
+              <img
+                id="hotel-image"
+                src="https://example.com/images/hotel1.jpg"
+                alt="Hotel Image"
+                class="img-fluid mb-4"
+              />
 
-              <div class="row">
-                <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="email"
-                    >Email</label
-                  >
-                  <input type="email" id="email" class="form-control" />
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label class="text-black font-weight-bold" for="checkin_date"
-                    >Date Check In</label
-                  >
-                  <input type="text" id="checkin_date" class="form-control" />
-                </div>
-                <div class="col-md-6 form-group">
-                  <label class="text-black font-weight-bold" for="checkout_date"
-                    >Date Check Out</label
-                  >
-                  <input type="text" id="checkout_date" class="form-control" />
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label for="adults" class="font-weight-bold text-black"
-                    >Adults</label
-                  >
-                  <div class="field-icon-wrap">
-                    <div class="icon">
-                      <span class="ion-ios-arrow-down"></span>
-                    </div>
-                    <select name="" id="adults" class="form-control">
-                      <option value="">1</option>
-                      <option value="">2</option>
-                      <option value="">3</option>
-                      <option value="">4+</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6 form-group">
-                  <label for="children" class="font-weight-bold text-black"
-                    >Children</label
-                  >
-                  <div class="field-icon-wrap">
-                    <div class="icon">
-                      <span class="ion-ios-arrow-down"></span>
-                    </div>
-                    <select name="" id="children" class="form-control">
-                      <option value="">1</option>
-                      <option value="">2</option>
-                      <option value="">3</option>
-                      <option value="">4+</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row mb-4">
-                <div class="col-md-12 form-group">
-                  <label class="text-black font-weight-bold" for="message"
-                    >Notes</label
-                  >
-                  <textarea
-                    name="message"
-                    id="message"
-                    class="form-control"
-                    cols="30"
-                    rows="8"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input
-                    type="submit"
-                    value="Reserve Now"
-                    class="btn btn-primary text-white py-3 px-5 font-weight-bold"
-                  />
-                </div>
-              </div>
-            </form>
+              <h4>Amenities</h4>
+              <ul id="hotel-amenities" class="list-unstyled">
+                <!-- Amenities will be populated here -->
+              </ul>
+            </div>
           </div>
-          <div class="col-md-5" data-aos="fade-up" data-aos-delay="200">
-            <div class="row">
-              <div class="col-md-10 ml-auto contact-info">
-                <p>
-                  <span class="d-block">Address:</span>
-                  <span class="text-black">
-                    98 West 21th Street, Suite 721 New York NY 10016</span
+
+          <!-- Room Info -->
+          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+            <div class="room-details bg-white p-md-5 p-4 mb-5 border">
+              <h2 class="text-black font-weight-bold" id="room-name"></h2>
+              <p id="room-description"></p>
+              <p class="text-black font-weight-bold">
+                Room Number: <span id="room-number">404</span>
+              </p>
+              <p class="text-black font-weight-bold">
+                Room Type: <span id="room-type">Suite</span>
+              </p>
+              <p class="text-black font-weight-bold">
+                Price: $<span id="room-price">120</span>
+              </p>
+              <img
+                id="room-image"
+                src="https://res.cloudinary.com/dtnmqjjrt/image/upload/v1729172556/img_1_zf6eqj.jpg"
+                alt="Room Image"
+                class="img-fluid mb-4"
+              />
+
+              <!-- "Book Now" Button -->
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <button
+                    id="book-now"
+                    class="btn btn-primary text-white py-3 px-5 font-weight-bold"
                   >
-                </p>
-                <p>
-                  <span class="d-block">Phone:</span>
-                  <span class="text-black"> (+1) 435 3533</span>
-                </p>
-                <p>
-                  <span class="d-block">Email:</span>
-                  <span class="text-black"> info@yourdomain.com</span>
-                </p>
+                    Book Now
+                  </button>
+                </div>
               </div>
             </div>
           </div>

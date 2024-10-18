@@ -353,6 +353,20 @@ document.getElementById('login-form').addEventListener('submit', async function 
   }
 });
 
+// check this user is loggedin or not
+async function isLoggedIn() {
+  try {
+    const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+    console.log('Error occurred while chcking the user is loggedin or not!');
+  }
+};
+
 // verify button
 document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
@@ -367,12 +381,22 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
   }
 });
 
-// popup signup form
-window.onload = async function () {
-  const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
-    method: 'GET',
-    credentials: 'include'
+// checking user
+if (checkElement('#book-now')) {
+  document.getElementById('book-now').addEventListener('click', () => {
+    const response = isLoggedIn();
+    if (!response.ok) {
+      overlay.style.display = 'block';
+      loginForm.classList.remove('d-none');
+      loginForm.classList.add('d-block');
+      document.body.style.overflow = 'hidden';
+    }
   });
+}
+
+// popup login/signup form
+window.onload = async function () {
+  const response = isLoggedIn();
 
   if (response.ok) {
     return;
@@ -386,39 +410,84 @@ window.onload = async function () {
   }, 3000);
 };
 
-// search availability rooms
-document.getElementById('search-availability').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  try {
+// search availability
+let previousSearch = {
+  location: null,
+  checkIn: null,
+  checkOut: null
+};
 
-    const location = document.getElementById('location').value;
-    const checkIn = document.getElementById('checkin_date').value;
-    const checkOut = document.getElementById('checkout_date').value;
+// check element is exist or not of particular html page
+function checkElement(selector) {
+  const element = document.querySelector(selector);
 
-    if (!location || !checkIn || !checkOut) {
-      return;
-    }
-
-    const response = await fetch('https://sogo-backend.onrender.com/api/room');
-    const result = await response.json();
-
-    if (response.ok) {
-      console.log('Available rooms:', result);
-      generateRoomCards(result);
-      window.location.hash = 'rooms_';
-    } else {
-      console.error('Error fetching availability:', result);
-    }
-
-  } catch (error) {
-    console.error('Error:', error);
+  if (element) {
+    console.log(`Element matching '${selector}' exists.`);
+    return true; // Element exists
+  } else {
+    console.log(`Element matching '${selector}' does not exist.`);
+    return false; // Element does not exist
   }
-});
+};
+
+if (checkElement("#search-availability")) {
+  document.getElementById('search-availability').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    try {
+      const location = document.getElementById('location').value;
+      const checkIn = document.getElementById('checkin_date').value;
+      const checkOut = document.getElementById('checkout_date').value;
+
+      // Check if values have changed or not
+      if (location === previousSearch.location && checkIn === previousSearch.checkIn && checkOut === previousSearch.checkOut) {
+        return;
+      }
+
+      // Update previous search values
+      previousSearch = { location, checkIn, checkOut };
+
+      // Validate form inputs
+      if (!location || !checkIn || !checkOut) {
+        console.warn('Please fill out all fields.');
+        return;
+      }
+
+      // Fetch available rooms
+      const response = await fetch('https://sogo-backend.onrender.com/api/room');
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('Available rooms:', result);
+        generateRoomCards(result);
+
+        // Scroll to room section and reset the hash after 3 seconds
+        window.location.hash = 'rooms_';
+        setTimeout(() => {
+          history.replaceState(null, null, ' ');
+        }, 3000);
+      } else {
+        console.error('Error fetching availability:', result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+};
 
 // Function to generate room cards dynamically
 function generateRoomCards(rooms) {
   const roomContainer = document.getElementById('room-container');
   roomContainer.innerHTML = ''; // Clear previous room cards
+
+  // Check if rooms array is empty
+  if (rooms.length === 0) {
+    roomContainer.innerHTML = '<p>No rooms available.</p>'; // Display a message if no rooms found
+    return;
+  }
+
+  // Use DocumentFragment to improve performance when appending multiple elements
+  const fragment = document.createDocumentFragment();
 
   rooms.forEach(room => {
     const roomCard = document.createElement('div');
@@ -426,9 +495,9 @@ function generateRoomCards(rooms) {
     roomCard.setAttribute('data-aos', 'fade-up');
 
     roomCard.innerHTML = `
-      <a href="#" class="room">
+      <a href="detail.html?id=${room._id}" class="room_">
         <figure class="img-wrap">
-          <img src="${room.images[0]}" alt="${room.roomType}" class="img-fluid mb-3" />
+          <img src="${room.images[0]}" alt="${room.roomType} Room" class="img-fluid mb-3" />
         </figure>
         <div class="p-3 text-center room-info">
           <h2>${room.roomType} Room</h2>
@@ -437,6 +506,70 @@ function generateRoomCards(rooms) {
       </a>
     `;
 
-    roomContainer.appendChild(roomCard);
+    fragment.appendChild(roomCard); // Append the room card to the DocumentFragment
   });
-}
+
+  roomContainer.appendChild(fragment); // Append the entire fragment at once
+};
+
+// Clear the hash on page load (after refresh)
+window.addEventListener('load', function () {
+  if (window.location.hash) {
+    window.location.hash = '';
+  }
+});
+
+// Function to populate room details on the page
+function showRoomDetails(data) {
+  // Populate room details
+  document.getElementById('room-name').textContent = data.roomName;
+  document.getElementById('room-description').textContent = data.description;
+  document.getElementById('room-number').textContent = data.roomNumber;
+  document.getElementById('room-type').textContent = data.roomType;
+  document.getElementById('room-price').textContent = data.price;
+  document.getElementById('room-image').src = data.images[0];
+
+  // Populate hotel details
+  const hotel = data.hotelId;
+  document.getElementById('hotel-name').textContent = hotel.name;
+  document.getElementById('hotel-description').textContent = hotel.description;
+  document.getElementById('hotel-address').textContent = `${hotel.address.city}, ${hotel.address.state}, ${hotel.address.country}, ${hotel.address.zipcode}`;
+  document.getElementById('hotel-phone').textContent = hotel.contact.phone;
+  document.getElementById('hotel-email').textContent = hotel.contact.email;
+  document.getElementById('hotel-image').src = hotel.images[0]; // You can change to show the first image
+
+  // Populate amenities
+  const amenitiesList = document.getElementById('hotel-amenities');
+  amenitiesList.innerHTML = ''; // Clear existing amenities
+  hotel.amenities.forEach(amenity => {
+    const listItem = document.createElement('li');
+    listItem.textContent = amenity;
+    amenitiesList.appendChild(listItem);
+  });
+};
+
+// get room data from server and display it
+const urlParams = new URLSearchParams(window.location.search);
+const roomId = urlParams.get('id');
+
+if (roomId) {
+  getRoomData(roomId);
+};
+
+// get room details
+async function getRoomData(roomId) {
+  try {
+    const response = await fetch(`https://sogo-backend.onrender.com/api/room/${roomId}`);
+    const result = await response.json();
+    if (response.ok) {
+      console.log('Room fetched successful:', result);
+      showRoomDetails(result);
+    } else {
+      console.error('Room fetched failed:', result);
+      alert('Error fetching the detail of room!');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An error occurred. Please check your connection and try again.');
+  }
+};

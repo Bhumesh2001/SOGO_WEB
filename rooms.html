@@ -61,147 +61,203 @@
     <div class="overlay_" id="overlay"></div>
 
     <!-- singup section -->
-    <section class="signup-section d-none form-container_ px-0" id="signupForm">
+    <section
+      class="signup-section d-none form-container_ px-0 mx-0"
+      id="signupForm"
+    >
       <div
-        class="container form-div d-flex align-items-center justify-content-center px-0"
+        class="container form-div d-flex justify-content-center align-items-center px-0 mx-0"
       >
-        <div class="col-md-6 d-none d-md-block img-singup"></div>
+        <div class="row w-100 h-100">
+          <div class="col-md-6 d-none d-md-block img-singup"></div>
 
-        <div
-          class="col-md-6 px-0 d-flex justify-content-center align-items-center"
-        >
-          <form id="signup-form_" class="w-100 px-5">
-            <div class="heading-div d-flex flex-column mb-4">
-              <h1
-                class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
-              >
-                Sign Up
-              </h1>
-              <div class="yellow-line"></div>
-            </div>
-            <div class="mb-4">
-              <input
-                type="text"
-                class="form-control"
-                id="firstName"
-                placeholder="First Name"
-                required
-                autocomplete="off"
-                name="firstName"
-              />
-            </div>
-            <div class="mb-4">
-              <input
-                type="text"
-                class="form-control"
-                id="lastName"
-                placeholder="Last Name"
-                required
-                autocomplete="off"
-                name="lastName"
-              />
-            </div>
-            <div class="mb-4">
-              <input
-                type="email"
-                class="form-control"
-                id="email_"
-                placeholder="Email"
-                required
-                autocomplete="off"
-                name="email"
-              />
-            </div>
-            <div class="mb-4">
-              <input
-                type="password"
-                class="form-control"
-                id="password_"
-                placeholder="Password"
-                required
-                autocomplete="off"
-                name="password"
-              />
-            </div>
-            <div class="d-grid">
-              <button
-                type="submit"
-                class="btn btn-warning btn-text text-white w-100"
-              >
-                Sign Up
-              </button>
-            </div>
-
-            <div class="text-center mt-3">
-              <p>
-                Already have an account?
-                <a class="text-decoration-none text-dark" id="toLogin" href="#"
-                  >Log in</a
+          <div
+            class="col-md-6 px-0 d-flex justify-content-center align-items-center"
+          >
+            <form id="signup-form_" class="w-100 px-5">
+              <div class="heading-div d-flex flex-column mb-3">
+                <h1
+                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
                 >
-              </p>
-            </div>
-          </form>
+                  Sign Up
+                </h1>
+                <div class="yellow-line"></div>
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  placeholder="First Name"
+                  required
+                  autocomplete="off"
+                  name="firstName"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  placeholder="Last Name"
+                  required
+                  autocomplete="off"
+                  name="lastName"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email_"
+                  placeholder="Email"
+                  required
+                  autocomplete="off"
+                  name="email"
+                />
+              </div>
+              <div class="mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password_"
+                  placeholder="Password"
+                  required
+                  autocomplete="off"
+                  name="password"
+                />
+              </div>
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-warning btn-text text-white w-100"
+                >
+                  Sign Up
+                </button>
+              </div>
+
+              <div class="text-center mt-3">
+                <p>
+                  Already have an account?
+                  <a
+                    class="text-decoration-none text-dark"
+                    draggable="false"
+                    id="toLogin"
+                    href="#"
+                    >Log in</a
+                  >
+                </p>
+              </div>
+            </form>
+
+            <form id="verify-form_" class="w-100 px-5 d-none">
+              <div class="heading-div d-flex flex-column mb-4">
+                <h1
+                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
+                >
+                  Sign Up
+                </h1>
+                <div class="yellow-line"></div>
+              </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  id="otp"
+                  class="form-control"
+                  placeholder="Enter OTP"
+                  required
+                  maxlength="6"
+                />
+              </div>
+
+              <div class="mb-3 otp-expiry-message text-center">
+                <p>Your OTP will expire in 10 minutes.</p>
+              </div>
+
+              <div class="mb-3 text-center">
+                <button type="submit" id="verify-btn" class="btn btn-primary">
+                  Verify
+                </button>
+              </div>
+
+              <div class="text-center">
+                <p>
+                  Didn't receive the OTP?
+                  <a draggable="false" href="#">Resend OTP</a>
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Login section -->
-    <section class="login-section d-none form-container_ px-0" id="loginForm">
+    <section
+      class="login-section d-none form-container_ px-0 mx-0"
+      id="loginForm"
+    >
       <div
-        class="container form-div d-flex align-items-center justify-content-center px-0"
+        class="container form-div px-0 mx-md-0 d-flex justify-content-center align-items-center"
       >
-        <div class="col-md-6 d-none d-md-block img-login"></div>
-        <div
-          class="col-md-6 px-0 d-flex justify-content-center align-items-center"
-        >
-          <form id="login-form" class="w-100 px-5">
-            <div class="heading-div d-flex flex-column mb-4">
-              <h1
-                class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
-              >
-                Login
-              </h1>
-              <div class="yellow-line"></div>
-            </div>
-            <div class="mb-4">
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="Email"
-                required
-                autocomplete="off"
-                name="email"
-              />
-            </div>
-            <div class="mb-4">
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                placeholder="Password"
-                required
-                autocomplete="off"
-                name="password"
-              />
-            </div>
-            <div class="d-grid">
-              <button
-                type="submit"
-                class="btn btn-warning btn-text text-white w-100"
-              >
-                Login
-              </button>
-            </div>
-
-            <div class="text-center mt-3">
-              <p>
-                <a class="text-decoration-none text-dark" id="toSignup" href="#"
-                  >Create an account</a
+        <div class="row w-100 h-100">
+          <div class="col-md-6 d-none d-md-block img-login"></div>
+          <div
+            class="col-md-6 px-0 d-flex justify-content-center align-items-center"
+          >
+            <form id="login-form" class="w-100 px-5">
+              <div class="heading-div d-flex flex-column mb-4">
+                <h1
+                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
                 >
-              </p>
-            </div>
-          </form>
+                  Login
+                </h1>
+                <div class="yellow-line"></div>
+              </div>
+              <div class="mb-4">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Email"
+                  required
+                  autocomplete="off"
+                  name="email"
+                />
+              </div>
+              <div class="mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Password"
+                  required
+                  autocomplete="off"
+                  name="password"
+                />
+              </div>
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-warning btn-text text-white w-100"
+                >
+                  Login
+                </button>
+              </div>
+
+              <div class="text-center mt-3">
+                <p>
+                  <a
+                    class="text-decoration-none text-dark"
+                    draggable="false"
+                    id="toSignup"
+                    href="#"
+                    >Create an account</a
+                  >
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -217,7 +273,7 @@
         >
           <div class="col-md-10 text-center" data-aos="fade">
             <h1 class="heading mb-3">Rooms</h1>
-            <ul class="custom-breadcrumbs mb-4">
+            <ul class="custom-breadcrumbs mb-4 pb-5">
               <li><a href="index.html">Home</a></li>
               <li>&bullet;</li>
               <li>Rooms</li>
@@ -318,7 +374,10 @@
                 </div>
 
                 <div class="col-md-6 px-2 col-lg-3 align-self-end">
-                  <button class="btn btn-primary btn-block text-white" id="search-availability">
+                  <button
+                    class="btn btn-primary btn-block text-white"
+                    id="search-availability"
+                  >
                     Check Availabilty
                   </button>
                 </div>
