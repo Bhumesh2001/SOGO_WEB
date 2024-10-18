@@ -115,7 +115,7 @@ textarea.form-control {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 25px 0;
+  padding: 20px 0;
   z-index: 2;
   -webkit-transition: 0.3s all ease-in-out;
   -o-transition: 0.3s all ease-in-out;
@@ -276,8 +276,7 @@ textarea.form-control {
 }
 
 .site-hero-inner {
-  height: 100vh;
-  min-height: 700px;
+  height: 78vh;
 }
 .site-hero-inner .heading {
   font-size: 60px;
@@ -1421,7 +1420,7 @@ textarea.form-control {
 }
 
 .check-availabilty {
-  margin-top: -370px;
+  margin-top: -450px;
   position: relative;
 }
 .check-availabilty .block-32 {
@@ -1845,6 +1844,6 @@ textarea.form-control {
   border-radius: 10px; 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
   z-index: 1000; 
-  width: 100%; 
+  width: 80%; 
   max-width: 900px;
 }
