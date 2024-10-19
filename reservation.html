@@ -65,22 +65,22 @@
       id="signupForm"
     >
       <div
-        class="container form-div d-flex justify-content-center align-items-center px-0 mx-0"
+        class="container form-div d-flex justify-content-center align-items-center px-0 mx-md-0"
       >
         <div class="row w-100 h-100">
           <div class="col-md-6 d-none d-md-block img-singup"></div>
 
           <div
-            class="col-md-6 px-0 d-flex justify-content-center align-items-center"
+            class="col-md-6 px-0 d-flex justify-content-center align-items-center h-100"
           >
-            <form id="signup-form_" class="w-100 px-5">
+            <form id="signup-form_" class="w-100 h-100 px-lg-5 px-md-5 px-4">
               <div class="heading-div d-flex flex-column mb-3">
                 <h1
-                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
+                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading signup-heading pt-3"
                 >
                   Sign Up
                 </h1>
-                <div class="yellow-line"></div>
+                <div class="yellow-line signup-yellow-line"></div>
               </div>
               <div class="mb-3">
                 <input
@@ -136,7 +136,7 @@
               </div>
 
               <div class="text-center mt-3">
-                <p>
+                <p class="mb-0">
                   Already have an account?
                   <a
                     class="text-decoration-none text-dark"
@@ -173,7 +173,7 @@
               </div>
 
               <div class="mb-3 text-center">
-                <button type="submit" id="verify-btn" class="btn btn-primary">
+                <button type="submit" id="verify-btn" class="btn btn-primary w-100">
                   Verify
                 </button>
               </div>
@@ -181,7 +181,7 @@
               <div class="text-center">
                 <p>
                   Didn't receive the OTP?
-                  <a draggable="false" href="#">Resend OTP</a>
+                  <a draggable="false">Resend OTP</a>
                 </p>
               </div>
             </form>
@@ -196,14 +196,14 @@
       id="loginForm"
     >
       <div
-        class="container form-div px-0 mx-md-0 d-flex justify-content-center align-items-center"
+        class="container form-div px-0 mx-0 d-flex justify-content-center align-items-center"
       >
         <div class="row w-100 h-100">
           <div class="col-md-6 d-none d-md-block img-login"></div>
           <div
             class="col-md-6 px-0 d-flex justify-content-center align-items-center"
           >
-            <form id="login-form" class="w-100 px-5">
+            <form id="login-form" class="w-100 px-lg-5 px-md-5 px-4">
               <div class="heading-div d-flex flex-column mb-4">
                 <h1
                   class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
@@ -216,7 +216,7 @@
                 <input
                   type="email"
                   class="form-control"
-                  id="email__"
+                  id="email"
                   placeholder="Email"
                   required
                   autocomplete="off"
@@ -244,7 +244,7 @@
               </div>
 
               <div class="text-center mt-3">
-                <p>
+                <p class="mb-0">
                   <a
                     class="text-decoration-none text-dark"
                     draggable="false"

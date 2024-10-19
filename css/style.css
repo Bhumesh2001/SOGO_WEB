@@ -1177,7 +1177,7 @@ textarea.form-control {
 
 .block-32 {
   background: #fff;
-  padding: 30px;
+  padding: 20px 30px 20px 30px;
   -webkit-box-shadow: 0 2px 80px -10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 80px -10px rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -1861,6 +1861,41 @@ textarea.form-control {
   border-color: #ffbb5a;
 }
 
-a:hover{
+a:hover {
   cursor: pointer;
+}
+
+@media (max-width: 426px) {
+  /* login form media queries */
+  .form-div {
+    height: 53vh;
+  }
+  .form-control {
+    height: 40px;
+  }
+  .heading {
+    font-family: "Merriweather", serif;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .yellow-line {
+    width: 82px;
+  }
+  .btn {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 50px;
+  }
+  .signup-section {
+    height: 66vh;
+  }
+  .signup-heading {
+    font-size: 30px;
+    padding-top: 8px;
+  }
+  .signup-yellow-line {
+    width: 100px;
+  }
 }
