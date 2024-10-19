@@ -1825,25 +1825,42 @@ textarea.form-control {
 /* overlay css  */
 
 .overlay_ {
-  display: none; 
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 999; 
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .form-container_ {
-  position: fixed; 
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  background-color: white; 
-  border-radius: 10px; 
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-  z-index: 1000; 
-  width: 80%; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 80%;
   max-width: 900px;
+}
+
+/* Custom styling for the payment form */
+.StripeElement {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(50, 50, 93, 0.1), 0 1px 0 rgba(0, 0, 0, 0.02);
+  width: 100%;
+}
+.StripeElement--focus {
+  border-color: #ffbb5a;
+}
+
+a:hover{
+  cursor: pointer;
 }

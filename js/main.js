@@ -213,6 +213,7 @@ const verify_Form = document.getElementById('verify-form_');
 
 let form;
 let email;
+let roomData;
 
 document.getElementById('login-signup-btn').addEventListener('click', function () {
   overlay.style.display = 'block';
@@ -380,19 +381,6 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
     alert(data.message);
   }
 });
-
-// checking user
-if (checkElement('#book-now')) {
-  document.getElementById('book-now').addEventListener('click', () => {
-    const response = isLoggedIn();
-    if (!response.ok) {
-      overlay.style.display = 'block';
-      loginForm.classList.remove('d-none');
-      loginForm.classList.add('d-block');
-      document.body.style.overflow = 'hidden';
-    }
-  });
-}
 
 // popup login/signup form
 window.onload = async function () {
@@ -563,6 +551,7 @@ async function getRoomData(roomId) {
     const result = await response.json();
     if (response.ok) {
       console.log('Room fetched successful:', result);
+      roomData = result;
       showRoomDetails(result);
     } else {
       console.error('Room fetched failed:', result);
@@ -573,3 +562,107 @@ async function getRoomData(roomId) {
     alert('An error occurred. Please check your connection and try again.');
   }
 };
+
+// stripe payment process
+
+async function call_API(method, url, data, token) {
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return response;
+  } catch (error) {
+    console.error("Error occurred", error);
+  }
+};
+
+// Initialize Stripe with your publishable key
+const stripe = Stripe("pk_live_51JjVtSBbKKU54ViHyGL7tzxCKvfYMjJsOR3WTUaAupzsF7kXE9JpQQ2VSGKpUkntjSASixKsDBSDRN1AjTXdbtMG00UwtRZNFq");
+
+// Create an instance of Stripe Elements
+const elements = stripe.elements();
+const cardElement = elements.create("card", {
+  style: {
+    base: {
+      color: "#32325d",
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": { color: "#aab7c4" },
+    },
+    invalid: { color: "#fa755a", iconColor: "#fa755a" },
+  },
+});
+cardElement.mount("#card-element");
+
+const form_ = document.getElementById("payment-form");
+
+const booking_data = {
+  hotelId: '670e1ef66f3a7a626cd938f0',
+  roomId: '670e1ef66f3a7a626cd938f0',
+  checkIn: "2024-11-01T15:00:00.000Z",
+  checkOut: "2024-11-05T11:00:00.000Z",
+  adults: 2,
+  children: 1,
+  totalPrice: 120,
+};
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzEwZGExOWFiOGYwMGU3NTFjMDhkYTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcyOTMzNzYwMiwiZXhwIjoxNzI5NDI0MDAyfQ.lUEkrQP_Ln6FQ5p4PU4pBG57ijD1z8_jV8C9dVWEfGw";
+
+form_.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const response = await call_API(
+    "POST",
+    "https://sogo-backend.onrender.com/api/booking",
+    booking_data,
+    token
+  );
+  const data = await response.json();
+
+  const { error } = await stripe.confirmCardPayment(
+    data.clientSecret,
+    {
+      payment_method: { card: cardElement },
+    }
+  );
+
+  if (error) {
+    document.getElementById("error-message").textContent = error.message;
+
+    const status_data = {
+      hotelId: booking_data.hotelId,
+      roomId: booking_data.roomId,
+      status: "canceled",
+    };
+    const cancelResponse = await call_API(
+      "PUT",
+      "https://sogo-backend.onrender.com/api/booking/status/update",
+      status_data,
+      token
+    );
+    console.log(await cancelResponse.json());
+  }
+  else {
+    const status_data = {
+      hotelId: booking_data.hotelId,
+      roomId: booking_data.roomId,
+      status: "confirmed",
+    };
+    const confirmResponse = await call_API(
+      "PUT",
+      "https://sogo-backend.onrender.com/api/booking/status/update",
+      status_data,
+      token
+    );
+    console.log(await confirmResponse.json());
+
+    alert("Payment successful!");
+    $("#paymentModal").modal("hide");
+  }
+});

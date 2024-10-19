@@ -142,7 +142,6 @@
                     class="text-decoration-none text-dark"
                     draggable="false"
                     id="toLogin"
-                    href="#"
                     >Log in</a
                   >
                 </p>
@@ -250,7 +249,6 @@
                     class="text-decoration-none text-dark"
                     draggable="false"
                     id="toSignup"
-                    href="#"
                     >Create an account</a
                   >
                 </p>
@@ -282,6 +280,56 @@
         </div>
       </div>
     </section>
+
+    <!-- payment section modal -->
+    <div
+      class="modal fade"
+      id="paymentModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="paymentModalLabel"
+      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="paymentModalLabel">Payment Details</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="payment-form">
+              <div class="form-group">
+                <label for="card-element" class="font-weight-bold"
+                  >Credit or Debit Card</label
+                >
+                <div id="card-element" class="form-control"></div>
+              </div>
+              <div
+                id="error-message"
+                role="alert"
+                class="text-danger mt-2"
+              ></div>
+              <button
+                type="submit"
+                id="pay-btn"
+                class="btn btn-primary btn-block mt-4 pay-btn"
+              >
+                Pay Now
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <section class="section room-details-section" id="next">
       <div class="container">
@@ -341,6 +389,8 @@
                   <button
                     id="book-now"
                     class="btn btn-primary text-white py-3 px-5 font-weight-bold"
+                    data-toggle="modal" 
+                    data-target="#paymentModal"
                   >
                     Book Now
                   </button>
@@ -612,6 +662,7 @@
     <script src="js/bootstrap-datepicker.js"></script>
     <script src="js/jquery.timepicker.min.js"></script>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
