@@ -288,10 +288,13 @@ async function sendFormDataAsJSON(formId, url) {
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
+    } else {
+      console.log(response);
+
     }
 
     const data = await response.json();
-    // console.log('Success:', data);
+    console.log('Success:', data);
     return data;
 
   } catch (error) {
@@ -335,6 +338,8 @@ document.getElementById('signup-form_').addEventListener('submit', async functio
     signup_Form.classList.add('d-none');
     verify_Form.classList.remove('d-none');
     verify_Form.classList.add('d-block');
+    console.log(data, '=====');
+
     alert(data.message);
   }
 });
@@ -350,6 +355,8 @@ document.getElementById('login-form').addEventListener('submit', async function 
     closeForm();
     form.reset();
     document.body.style.overflow = 'auto';
+    console.log(data, '===');
+
     alert(data.message);
   }
 });
