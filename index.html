@@ -69,7 +69,7 @@
       id="signupForm"
     >
       <div
-        class="container form-div d-flex justify-content-center align-items-center px-0 mx-md-0"
+        class="container form-div form__div d-flex justify-content-center align-items-center px-0 mx-md-0"
       >
         <div class="row w-100 h-100">
           <div class="col-md-6 d-none d-md-block img-singup"></div>
@@ -77,118 +77,110 @@
           <div
             class="col-md-6 px-0 d-flex justify-content-center align-items-center h-100"
           >
-            <form id="signup-form_" class="w-100 h-100 px-lg-5 px-md-5 px-4">
-              <div class="heading-div d-flex flex-column mb-3">
-                <h1
-                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading signup-heading pt-3"
-                >
-                  Sign Up
-                </h1>
-                <div class="yellow-line signup-yellow-line"></div>
-              </div>
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  required
-                  autocomplete="off"
-                  name="firstName"
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  required
-                  autocomplete="off"
-                  name="lastName"
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email_"
-                  placeholder="Email"
-                  required
-                  autocomplete="off"
-                  name="email"
-                />
-              </div>
-              <div class="mb-4">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password_"
-                  placeholder="Password"
-                  required
-                  autocomplete="off"
-                  name="password"
-                />
-              </div>
-              <div class="d-grid">
-                <button
-                  type="submit"
-                  class="btn btn-warning btn-text text-white"
-                >
-                  Sign Up
-                </button>
-              </div>
 
-              <div class="text-center mt-3">
-                <p class="mb-0">
-                  Already have an account?
-                  <a
-                    class="text-decoration-none text-dark"
-                    draggable="false"
-                    id="toLogin"
-                    >Log in</a
+            <div class="form_div w-100">
+              <form id="signup-form_" class="w-100 h-100 p-lg-5 p-md-4 p-4">
+                <div class="heading-div d-flex flex-column mb-3">
+                  <h1
+                    class="text-center display-4 display-md-3 display-lg-2 m-0 heading signup-heading"
                   >
-                </p>
-              </div>
-            </form>
-
-            <form id="verify-form_" class="w-100 px-5 d-none">
-              <div class="heading-div d-flex flex-column mb-4">
-                <h1
-                  class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
-                >
-                  Sign Up
-                </h1>
-                <div class="yellow-line"></div>
-              </div>
-              <div class="mb-3">
-                <input
-                  type="text"
-                  id="otp"
-                  class="form-control"
-                  placeholder="Enter OTP"
-                  required
-                  maxlength="6"
-                />
-              </div>
-
-              <div class="mb-3 otp-expiry-message text-center">
-                <p>Your OTP will expire in 10 minutes.</p>
-              </div>
-
-              <div class="mb-3 text-center">
-                <button type="submit" id="verify-btn" class="btn btn-primary">
-                  Verify
-                </button>
-              </div>
-
-              <div class="text-center">
-                <p>
-                  Didn't receive the OTP?
-                  <a draggable="false">Resend OTP</a>
-                </p>
-              </div>
-            </form>
+                    Sign Up
+                  </h1>
+                  <div class="yellow-line signup-yellow-line"></div>
+                </div>
+                <div class="mb-4">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email_"
+                    placeholder="Email"
+                    required
+                    autocomplete="off"
+                    name="email"
+                  />
+                </div>
+                <div class="mb-4">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password_"
+                    placeholder="Password"
+                    required
+                    autocomplete="off"
+                    name="password"
+                  />
+                </div>
+                <div class="mb-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                    autocomplete="off"
+                    name="confirmPassword"
+                  />
+                </div>
+                <div class="d-grid">
+                  <button
+                    type="submit"
+                    class="btn btn-warning btn-text text-white"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+  
+                <div class="text-center mt-3">
+                  <p class="mb-0">
+                    Already have an account?
+                    <a
+                      class="text-decoration-none text-dark"
+                      draggable="false"
+                      id="toLogin"
+                      >Log in</a
+                    >
+                  </p>
+                </div>
+              </form>
+  
+              <form id="verify-form_" class="w-100 px-5 d-none">
+                <div class="heading-div d-flex flex-column mb-4">
+                  <h1
+                    class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
+                  >
+                    Sign Up
+                  </h1>
+                  <div class="yellow-line"></div>
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    id="otp"
+                    class="form-control"
+                    placeholder="Enter OTP"
+                    required
+                    maxlength="6"
+                  />
+                </div>
+  
+                <div class="mb-3 otp-expiry-message text-center">
+                  <p>Your OTP will expire in 10 minutes.</p>
+                </div>
+  
+                <div class="mb-3 text-center">
+                  <button type="submit" id="verify-btn" class="btn btn-primary">
+                    Verify
+                  </button>
+                </div>
+  
+                <div class="text-center">
+                  <p>
+                    Didn't receive the OTP?
+                    <a draggable="false">Resend OTP</a>
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -205,9 +197,10 @@
         <div class="row w-100 h-100">
           <div class="col-md-6 d-none d-md-block img-login"></div>
           <div
-            class="col-md-6 px-0 d-flex justify-content-center align-items-center"
+            class="col-md-6 px-0 d-flex justify-content-center align-items-center w-100"
           >
-            <form id="login-form" class="w-100 px-lg-5 px-md-5 px-4">
+          <div class="form_div w-100">
+            <form id="login-form" class="p-lg-5 p-sm-4 p-4">
               <div class="heading-div d-flex flex-column mb-4">
                 <h1
                   class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
@@ -259,10 +252,11 @@
               </div>
             </form>
           </div>
+          </div>
         </div>
       </div>
     </section>
-
+  
     <section
       class="site-hero overlay"
       style="

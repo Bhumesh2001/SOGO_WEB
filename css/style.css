@@ -1866,9 +1866,8 @@ a:hover {
 }
 
 @media (max-width: 426px) {
-  /* login form media queries */
   .form-div {
-    height: 53vh;
+    height: 55vh;
   }
   .form-control {
     height: 40px;
@@ -1889,13 +1888,49 @@ a:hover {
     border-radius: 50px;
   }
   .signup-section {
-    height: 66vh;
+    height: 62vh;
   }
   .signup-heading {
     font-size: 30px;
-    padding-top: 8px;
   }
   .signup-yellow-line {
     width: 100px;
+  }
+  .form__div{
+    height: 62vh;
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  /* signup form css */
+  .form-div{
+    height: 55vh;
+  }
+
+  .form-control {
+    height: 40px;
+  }
+  .heading {
+    font-family: "Merriweather", serif;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .yellow-line {
+    width: 82px;
+  }
+  .btn {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 50px;
+  }
+
+  /* login form css */
+  .form__div{
+    height: 59vh;
+  }
+  .signup-yellow-line{
+    width: 108px;
   }
 }
