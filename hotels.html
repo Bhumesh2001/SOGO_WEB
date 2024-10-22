@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Sogo Hotel</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//fonts.googleapis.com/css?family=|Roboto+Sans:400,700|Playfair+Display:400,700"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/aos.css" />
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="css/jquery.timepicker.css" />
+    <link rel="stylesheet" href="css/fancybox.min.css" />
+
+    <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css" />
+    <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header js-site-header">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-6 col-lg-4 site-logo" data-aos="fade">
+            <a href="index.html">
+              <img
+                src="/images/logo_resenbooking.png"
+                class="img-fluid w-50"
+                alt=""
+              />
+            </a>
+          </div>
+          <div class="col-6 col-lg-8 d-flex justify-content-end">
+            <button
+              id="login-signup-btn"
+              class="btn btn-outline-warning btn-sm"
+            >
+              Login or Create Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- overlay -->
+      <div class="overlay_" id="overlay"></div>
+
+      <!-- singup section -->
+      <section
+        class="signup-section d-none form-container_ px-0 mx-0"
+        id="signupForm"
+      >
+        <div
+          class="container form-div form__div d-flex justify-content-center align-items-center px-0 mx-md-0"
+        >
+          <div class="row w-100 h-100">
+            <div class="col-md-6 d-none d-md-block img-singup"></div>
+
+            <div
+              class="col-md-6 px-0 d-flex justify-content-center align-items-center h-100"
+            >
+              <div class="form_div w-100">
+                <form id="signup-form_" class="w-100 h-100 p-lg-5 p-md-4 p-4">
+                  <div class="heading-div d-flex flex-column mb-3">
+                    <h1
+                      class="text-center display-4 display-md-3 display-lg-2 m-0 heading signup-heading"
+                    >
+                      Sign Up
+                    </h1>
+                    <div class="yellow-line signup-yellow-line"></div>
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email_"
+                      placeholder="Email"
+                      required
+                      autocomplete="off"
+                      name="email"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password_"
+                      placeholder="Password"
+                      required
+                      autocomplete="off"
+                      name="password"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="confirmPassword"
+                      placeholder="Confirm Password"
+                      required
+                      autocomplete="off"
+                      name="confirmPassword"
+                    />
+                  </div>
+                  <div class="d-grid">
+                    <button
+                      type="submit"
+                      class="btn btn-warning btn-text text-white"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    <p class="mb-0">
+                      Already have an account?
+                      <a
+                        class="text-decoration-none text-dark"
+                        draggable="false"
+                        id="toLogin"
+                        >Log in</a
+                      >
+                    </p>
+                  </div>
+                </form>
+
+                <form id="verify-form_" class="w-100 px-5 d-none">
+                  <div class="heading-div d-flex flex-column mb-4">
+                    <h1
+                      class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
+                    >
+                      Sign Up
+                    </h1>
+                    <div class="yellow-line"></div>
+                  </div>
+                  <div class="mb-3">
+                    <input
+                      type="text"
+                      id="otp"
+                      class="form-control"
+                      placeholder="Enter OTP"
+                      required
+                      maxlength="6"
+                    />
+                  </div>
+
+                  <div class="mb-3 otp-expiry-message text-center">
+                    <p>Your OTP will expire in 10 minutes.</p>
+                  </div>
+
+                  <div class="mb-3 text-center">
+                    <button
+                      type="submit"
+                      id="verify-btn"
+                      class="btn btn-primary"
+                    >
+                      Verify
+                    </button>
+                  </div>
+
+                  <div class="text-center">
+                    <p>
+                      Didn't receive the OTP?
+                      <a draggable="false">Resend OTP</a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Login section -->
+      <section
+        class="login-section d-none form-container_ px-0 mx-0"
+        id="loginForm"
+      >
+        <div
+          class="container form-div px-0 mx-0 d-flex justify-content-center align-items-center"
+        >
+          <div class="row w-100 h-100">
+            <div class="col-md-6 d-none d-md-block img-login"></div>
+            <div
+              class="col-md-6 px-0 d-flex justify-content-center align-items-center w-100"
+            >
+              <div class="form_div w-100">
+                <form id="login-form" class="p-lg-5 p-sm-4 p-4">
+                  <div class="heading-div d-flex flex-column mb-4">
+                    <h1
+                      class="text-center display-4 display-md-3 display-lg-2 m-0 heading"
+                    >
+                      Login
+                    </h1>
+                    <div class="yellow-line"></div>
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Email"
+                      required
+                      autocomplete="off"
+                      name="email"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Password"
+                      required
+                      autocomplete="off"
+                      name="password"
+                    />
+                  </div>
+                  <div class="d-grid">
+                    <button
+                      type="submit"
+                      class="btn btn-warning btn-text text-white"
+                    >
+                      Login
+                    </button>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    <p class="mb-0">
+                      <a
+                        class="text-decoration-none text-dark"
+                        draggable="false"
+                        id="toSignup"
+                        >Create an account</a
+                      >
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- site hero overlay section -->
+      <section
+        class="site-hero overlay"
+        style="
+          background-image: url(images/hero_4.jpg);
+          background-repeat: no-repeat;
+        "
+        data-stellar-background-ratio="0.5"
+      >
+        <div class="container">
+          <div
+            class="row site-hero-inner justify-content-center align-items-center"
+          >
+            <div class="col-md-10 text-center" data-aos="fade-up">
+              <span
+                class="custom-caption text-uppercase text-white d-block mb-3"
+                >Welcome To ReisenBooking</span
+              >
+              <h1 class="heading">Find Best Places To Stay</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- hotel search bar section -->
+      <section class="section bg-light pb-0">
+        <div class="container">
+          <div class="row check-availabilty pt-4 pt-md-3" id="next">
+            <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
+              <form id="search-availability">
+                <div class="row">
+                  <div
+                    class="col-md-6 mb-lg-3 mb-md-2 mb-2 px-2 mb-lg-0 col-lg-2"
+                  >
+                    <label for="location" class="font-weight-bold text-black"
+                      >Location</label
+                    >
+                    <div class="field-icon-wrap">
+                      <div class="icon">
+                        <span class="icon-calendar"></span>
+                      </div>
+                      <input
+                        type="text"
+                        id="location"
+                        class="form-control"
+                        placeholder="Enter location"
+                        required
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-md-6 mb-lg-3 mb-md-2 mb-2 px-2 mb-lg-0 col-lg-2"
+                  >
+                    <label
+                      for="checkin_date"
+                      class="font-weight-bold text-black"
+                      >Check In</label
+                    >
+                    <div class="field-icon-wrap">
+                      <div class="icon">
+                        <span class="icon-calendar"></span>
+                      </div>
+                      <input
+                        type="date"
+                        id="checkin_date"
+                        required
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-md-6 mb-lg-3 mb-md-2 mb-2 px-2 mb-lg-0 col-lg-2"
+                  >
+                    <label
+                      for="checkout_date"
+                      class="font-weight-bold text-black"
+                      >Check Out</label
+                    >
+                    <div class="field-icon-wrap">
+                      <div class="icon">
+                        <span class="icon-calendar"></span>
+                      </div>
+                      <input
+                        type="date"
+                        id="checkout_date"
+                        class="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-md-0 col-lg-3">
+                    <div class="row">
+                      <!-- Adults Section -->
+                      <div class="col-md-6 px-2 mb-3 mb-md-0">
+                        <label for="adults" class="font-weight-bold text-black"
+                          >Adults</label
+                        >
+                        <div class="field-icon-wrap">
+                          <div class="input-group">
+                            <span
+                              class="input-group-text decrement-icon"
+                              id="adults-decrement"
+                              style="cursor: pointer"
+                            >
+                              <i class="fas fa-minus"></i>
+                              <!-- FontAwesome minus icon -->
+                            </span>
+                            <input
+                              type="number"
+                              id="adults"
+                              class="form-control text-center"
+                              value="1"
+                              min="1"
+                            />
+                            <span
+                              class="input-group-text increment-icon"
+                              id="adults-increment"
+                              style="cursor: pointer"
+                            >
+                              <i class="fas fa-plus"></i>
+                              <!-- FontAwesome plus icon -->
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Children Section -->
+                      <div class="col-md-6 px-2 mb-3 mb-md-0">
+                        <label
+                          for="children"
+                          class="font-weight-bold text-black"
+                          >Children</label
+                        >
+                        <div class="field-icon-wrap">
+                          <div class="input-group">
+                            <span
+                              class="input-group-text decrement-icon"
+                              id="children-decrement"
+                              style="cursor: pointer"
+                            >
+                              <i class="fas fa-minus"></i>
+                              <!-- FontAwesome minus icon -->
+                            </span>
+                            <input
+                              type="number"
+                              id="children"
+                              class="form-control text-center"
+                              value="0"
+                              min="0"
+                              max="17"
+                            />
+                            <span
+                              class="input-group-text increment-icon"
+                              id="children-increment"
+                              style="cursor: pointer"
+                            >
+                              <i class="fas fa-plus"></i>
+                              <!-- FontAwesome plus icon -->
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-md-6 px-2 btn-sm col-lg-3 align-self-end text-center mb-xl-3 mb-lg-3 mt-md-2"
+                  >
+                    <button class="btn btn-primary btn-block text-white">
+                      Check Availabilty
+                    </button>
+                  </div>
+                </div>
+
+                <ul id="location-suggestions" class="list-group"></ul>
+                
+                <!-- Container for children's ages -->
+                <div id="children-ages" class="mt-3"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- searched hotel info section -->
+      <section class="searched-hotel-info-section" id="searched_hotel">
+        <h1>hello world</h1>
+      </section>
+    </main>
+
+    <!-- footer section -->
+    <footer class="section footer-section">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-md-3 mb-5">
+            <ul class="list-unstyled link">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Terms &amp; Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Rooms</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-5">
+            <ul class="list-unstyled link">
+              <li><a href="#">The Rooms &amp; Suites</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Restaurant</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-5 pr-md-5 contact-info">
+            <!-- <li>198 West 21th Street, <br> Suite 721 New York NY 10016</li> -->
+            <p>
+              <span class="d-block"
+                ><span class="ion-ios-location h5 mr-3 text-primary"></span
+                >Address:</span
+              >
+              <span>
+                198 West 21th Street, <br />
+                Suite 721 New York NY 10016</span
+              >
+            </p>
+            <p>
+              <span class="d-block"
+                ><span class="ion-ios-telephone h5 mr-3 text-primary"></span
+                >Phone:</span
+              >
+              <span> (+1) 435 3533</span>
+            </p>
+            <p>
+              <span class="d-block"
+                ><span class="ion-ios-email h5 mr-3 text-primary"></span
+                >Email:</span
+              >
+              <span> info@domain.com</span>
+            </p>
+          </div>
+          <div class="col-md-3 mb-5">
+            <p>Sign up for our newsletter</p>
+            <form action="#" class="footer-newsletter">
+              <div class="form-group">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email..."
+                />
+                <button type="submit" class="btn">
+                  <span class="fa fa-paper-plane"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <p class="col-md-6 text-left">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            All rights reserved | This template is made with
+            <i class="icon-heart-o" aria-hidden="true"></i> by
+            <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
+
+          <p class="col-md-6 text-right social">
+            <a href="#"><span class="fa fa-tripadvisor"></span></a>
+            <a href="#"><span class="fa fa-facebook"></span></a>
+            <a href="#"><span class="fa fa-twitter"></span></a>
+            <a href="#"><span class="fa fa-linkedin"></span></a>
+            <a href="#"><span class="fa fa-vimeo"></span></a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/jquery.fancybox.min.js"></script>
+
+    <script src="js/aos.js"></script>
+
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="js/jquery.timepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/hotel.js"></script>
+  </body>
+</html>

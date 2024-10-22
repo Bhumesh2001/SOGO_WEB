@@ -1,3 +1,12 @@
+const overlay = document.getElementById('overlay');
+const loginForm = document.getElementById('loginForm');
+const signupForm = document.getElementById('signupForm');
+
+const signup_Form = document.getElementById('signup-form_');
+const verify_Form = document.getElementById('verify-form_');
+
+let email;
+
 (function ($) {
   'use strict';
 
@@ -204,16 +213,129 @@
 
 })(jQuery);
 
-const overlay = document.getElementById('overlay');
-const loginForm = document.getElementById('loginForm');
-const signupForm = document.getElementById('signupForm');
+// checkIn checkout date
 
-const signup_Form = document.getElementById('signup-form_');
-const verify_Form = document.getElementById('verify-form_');
+// Get today's date in YYYY-MM-DD format
+const today = new Date().toISOString().split('T')[0];
 
-let form;
-let email;
-let roomData;
+// Set the min attribute for both Check In and Check Out dates
+document.getElementById('checkin_date').setAttribute('min', today);
+document.getElementById('checkout_date').setAttribute('min', today);
+
+// Ensure that Check Out date is always after Check In date
+document.getElementById('checkin_date').addEventListener('change', function () {
+  const checkinDate = this.value;
+  document.getElementById('checkout_date').setAttribute('min', checkinDate);
+});
+
+// adults and children increment decrement option
+document.getElementById('adults-increment').onclick = function () {
+  const adultsInput = document.getElementById('adults');
+  adultsInput.value = parseInt(adultsInput.value) + 1;
+};
+
+document.getElementById('adults-decrement').onclick = function () {
+  const adultsInput = document.getElementById('adults');
+  if (parseInt(adultsInput.value) > 1) {
+    adultsInput.value = parseInt(adultsInput.value) - 1;
+  }
+};
+
+// Children increment and decrement with max age 17
+document.getElementById('children-increment').onclick = function () {
+  const childrenInput = document.getElementById('children');
+  childrenInput.value = parseInt(childrenInput.value) + 1;
+  updateChildrenAges();
+};
+
+// Prevent manual typing of values above 17 for children
+document.getElementById('children').oninput = function () {
+  updateChildrenAges();
+};
+
+document.getElementById('children-decrement').onclick = function () {
+  const childrenInput = document.getElementById('children');
+  if (parseInt(childrenInput.value) > 0) {
+    childrenInput.value = parseInt(childrenInput.value) - 1;
+  }
+  updateChildrenAges();
+};
+
+// fucntion to update children ages
+function updateChildrenAges() {
+  const childrenCount = parseInt(document.getElementById('children').value);
+  const childrenAgesContainer = document.getElementById('children-ages');
+
+  // Clear existing age inputs
+  childrenAgesContainer.innerHTML = '';
+
+  for (let i = 1; i <= childrenCount; i++) {
+    const ageSelect = document.createElement('div');
+    ageSelect.classList.add('mt-2');
+
+    // Create the label and the select dropdown
+    ageSelect.innerHTML = `
+      <label for="child-age-${i}" class="font-weight-bold text-black">Child ${i} Age</label>
+      <select id="child-age-${i}" class="form-control">
+        ${generateAgeOptions()}
+      </select>
+    `;
+
+    childrenAgesContainer.appendChild(ageSelect);
+  }
+};
+
+// Function to generate dropdown options for ages (0 to 17)
+function generateAgeOptions() {
+  let options = '';
+  for (let age = 0; age <= 17; age++) {
+    options += `<option value="${age}">${age}</option>`;
+  }
+  return options;
+};
+
+// collect the children data
+function getChildrenData() {
+  const childrenData = [];
+  const selectElements = document.querySelectorAll('[id^="child-age-"]');
+
+  selectElements.forEach((select, index) => {
+    const age = select.value;
+    childrenData.push({ child: index + 1, age: age });
+  });
+
+  return childrenData;
+};
+
+// location suggestion
+$("#location").on("input", function () {
+  const query = $(this).val();
+  if (query.length > 2) {
+    $.getJSON(
+      `https://photon.komoot.io/api/?q=${query}&limit=5`,
+      function (data) {
+        let suggestions = "";
+        data.features.forEach(function (place) {
+          const placeName =
+            place.properties.name + ", " + place.properties.country;
+          suggestions += `<li class="list-group-item" onclick="selectLocation('${placeName}')">${placeName}</li>`;
+        });
+        $("#location-suggestions").html(suggestions).show();
+      }
+    );
+  } else {
+    $("#location-suggestions").hide();
+  }
+});
+
+function selectLocation(location) {
+  $("#location").val(location);
+  $("#location-suggestions").hide();
+};
+
+$(document).click(function () {
+  $("#location-suggestions").hide();
+});
 
 document.getElementById('login-signup-btn').addEventListener('click', function () {
   overlay.style.display = 'block';
@@ -327,12 +449,12 @@ async function verifyOTP(data_, url) {
   }
 };
 
-// singup
+// singup btn
 document.getElementById('signup-form_').addEventListener('submit', async function (event) {
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'signup-form_',
-    'https://sogo-backend.onrender.com/api/user/signup',
+    'http://localhost:5001/api/user/signup',
   );
   if (data) {
     signup_Form.classList.add('d-none');
@@ -344,12 +466,12 @@ document.getElementById('signup-form_').addEventListener('submit', async functio
   }
 });
 
-// login
+// login btn
 document.getElementById('login-form').addEventListener('submit', async function (event) {
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'login-form',
-    'https://sogo-backend.onrender.com/api/user/login',
+    'http://localhost:5001/api/user/login',
   );
   if (data) {
     closeForm();
@@ -364,7 +486,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 // check this user is loggedin or not
 async function isLoggedIn() {
   try {
-    const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
+    const response = await fetch('http://localhost:5001/api/user/check-login', {
       method: 'GET',
       credentials: 'include'
     });
@@ -380,7 +502,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const otp = document.getElementById('otp').value;
 
-  const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
+  const data = await verifyOTP({ email, otp }, 'http://localhost:5001/api/user/verify-otp');
   if (data) {
     closeForm();
     form.reset();
@@ -390,19 +512,32 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
 });
 
 // popup login/signup form
-window.onload = async function () {
-  const response = isLoggedIn();
+// window.onload = async function () {
+//   const response = isLoggedIn();
 
-  if (response.ok) {
-    return;
+//   if (response.ok) {
+//     return;
+//   }
+
+//   setTimeout(function () {
+//     overlay.style.display = 'block';
+//     loginForm.classList.remove('d-none');
+//     loginForm.classList.add('d-block');
+//     document.body.style.overflow = 'hidden';
+//   }, 3000);
+// };
+
+// check element is exist or not of particular html page
+function checkElement(selector) {
+  const element = document.querySelector(selector);
+
+  if (element) {
+    console.log(`Element matching '${selector}' exists.`);
+    return true;
+  } else {
+    console.log(`Element matching '${selector}' does not exist.`);
+    return false;
   }
-
-  setTimeout(function () {
-    overlay.style.display = 'block';
-    loginForm.classList.remove('d-none');
-    loginForm.classList.add('d-block');
-    document.body.style.overflow = 'hidden';
-  }, 3000);
 };
 
 // search availability
@@ -412,18 +547,41 @@ let previousSearch = {
   checkOut: null
 };
 
-// check element is exist or not of particular html page
-function checkElement(selector) {
-  const element = document.querySelector(selector);
+// if (checkElement("#search-availability")) {
+//   document.getElementById('search-availability').addEventListener('submit', async function (e) {
+//     e.preventDefault();
 
-  if (element) {
-    console.log(`Element matching '${selector}' exists.`);
-    return true; // Element exists
-  } else {
-    console.log(`Element matching '${selector}' does not exist.`);
-    return false; // Element does not exist
-  }
-};
+//     try {
+//       const location = document.getElementById('location').value;
+//       const checkIn = document.getElementById('checkin_date').value;
+//       const checkOut = document.getElementById('checkout_date').value;
+//       const adults = document.getElementById('adults').value;
+//       const children = document.getElementById('children').value;
+//       const childrenAges = getChildrenData();
+//       const queryString = new URLSearchParams(childrenAges).toString();
+
+
+//       // Check if values have changed or not
+//       if (location === previousSearch.location && checkIn === previousSearch.checkIn && checkOut === previousSearch.checkOut) {
+//         return;
+//       }
+
+//       // Update previous search values
+//       previousSearch = { location, checkIn, checkOut };
+
+//       // Validate form inputs
+//       if (!location || !checkIn || !checkOut) {
+//         console.warn('Please fill out all fields.');
+//         return;
+//       }
+
+//       window.location.href = `hotels.html?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&childrenAges=${queryString}#searched_hotel`;
+
+//     } catch (error) {
+//       console.error('Error:', error);
+//     }
+//   });
+// };
 
 if (checkElement("#search-availability")) {
   document.getElementById('search-availability').addEventListener('submit', async function (e) {
@@ -433,243 +591,41 @@ if (checkElement("#search-availability")) {
       const location = document.getElementById('location').value;
       const checkIn = document.getElementById('checkin_date').value;
       const checkOut = document.getElementById('checkout_date').value;
+      const adults = document.getElementById('adults').value;
+      const children = document.getElementById('children').value;
+      const childrenAges = getChildrenData();
 
-      // Check if values have changed or not
+      // Flatten childrenAges to a query string format
+      const childrenAgesParam = childrenAges.map(child => `age${child.child}=${child.age}`).join('&');
+
+      // Check if values have changed
       if (location === previousSearch.location && checkIn === previousSearch.checkIn && checkOut === previousSearch.checkOut) {
+        console.warn('Search values have not changed.'); // Feedback for unchanged values
+        return;
+      }
+
+      // Validate form inputs
+      if (!location || !checkIn || !checkOut || new Date(checkIn) >= new Date(checkOut)) {
+        console.warn('Please fill out all fields and ensure the check-out date is after the check-in date.');
         return;
       }
 
       // Update previous search values
       previousSearch = { location, checkIn, checkOut };
 
-      // Validate form inputs
-      if (!location || !checkIn || !checkOut) {
-        console.warn('Please fill out all fields.');
-        return;
-      }
+      // Construct URL and redirect
+      window.location.href = `hotels.html?location=${encodeURIComponent(location)}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&${childrenAgesParam}#searched_hotel`;
 
-      // Fetch available rooms
-      const response = await fetch('https://sogo-backend.onrender.com/api/room');
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log('Available rooms:', result);
-        generateRoomCards(result);
-
-        // Scroll to room section and reset the hash after 3 seconds
-        window.location.hash = 'rooms_';
-        setTimeout(() => {
-          history.replaceState(null, null, ' ');
-        }, 3000);
-      } else {
-        console.error('Error fetching availability:', result.message);
-      }
     } catch (error) {
       console.error('Error:', error);
     }
   });
-};
+}
 
-// Function to generate room cards dynamically
-function generateRoomCards(rooms) {
-  const roomContainer = document.getElementById('room-container');
-  roomContainer.innerHTML = ''; // Clear previous room cards
-
-  // Check if rooms array is empty
-  if (rooms.length === 0) {
-    roomContainer.innerHTML = '<p>No rooms available.</p>'; // Display a message if no rooms found
-    return;
-  }
-
-  // Use DocumentFragment to improve performance when appending multiple elements
-  const fragment = document.createDocumentFragment();
-
-  rooms.forEach(room => {
-    const roomCard = document.createElement('div');
-    roomCard.className = 'col-md-6 col-lg-4 mb-5';
-    roomCard.setAttribute('data-aos', 'fade-up');
-
-    roomCard.innerHTML = `
-      <a href="detail.html?id=${room._id}" class="room_">
-        <figure class="img-wrap">
-          <img src="${room.images[0]}" alt="${room.roomType} Room" class="img-fluid mb-3" />
-        </figure>
-        <div class="p-3 text-center room-info">
-          <h2>${room.roomType} Room</h2>
-          <span class="text-uppercase letter-spacing-1">${room.price}$ / per night</span>
-        </div>
-      </a>
-    `;
-
-    fragment.appendChild(roomCard); // Append the room card to the DocumentFragment
-  });
-
-  roomContainer.appendChild(fragment); // Append the entire fragment at once
-};
 
 // Clear the hash on page load (after refresh)
 window.addEventListener('load', function () {
   if (window.location.hash) {
     window.location.hash = '';
-  }
-});
-
-// Function to populate room details on the page
-function showRoomDetails(data) {
-  // Populate room details
-  document.getElementById('room-name').textContent = data.roomName;
-  document.getElementById('room-description').textContent = data.description;
-  document.getElementById('room-number').textContent = data.roomNumber;
-  document.getElementById('room-type').textContent = data.roomType;
-  document.getElementById('room-price').textContent = data.price;
-  document.getElementById('room-image').src = data.images[0];
-
-  // Populate hotel details
-  const hotel = data.hotelId;
-  document.getElementById('hotel-name').textContent = hotel.name;
-  document.getElementById('hotel-description').textContent = hotel.description;
-  document.getElementById('hotel-address').textContent = `${hotel.address.city}, ${hotel.address.state}, ${hotel.address.country}, ${hotel.address.zipcode}`;
-  document.getElementById('hotel-phone').textContent = hotel.contact.phone;
-  document.getElementById('hotel-email').textContent = hotel.contact.email;
-  document.getElementById('hotel-image').src = hotel.images[0]; // You can change to show the first image
-
-  // Populate amenities
-  const amenitiesList = document.getElementById('hotel-amenities');
-  amenitiesList.innerHTML = ''; // Clear existing amenities
-  hotel.amenities.forEach(amenity => {
-    const listItem = document.createElement('li');
-    listItem.textContent = amenity;
-    amenitiesList.appendChild(listItem);
-  });
-};
-
-// get room data from server and display it
-const urlParams = new URLSearchParams(window.location.search);
-const roomId = urlParams.get('id');
-
-if (roomId) {
-  getRoomData(roomId);
-};
-
-// get room details
-async function getRoomData(roomId) {
-  try {
-    const response = await fetch(`https://sogo-backend.onrender.com/api/room/${roomId}`);
-    const result = await response.json();
-    if (response.ok) {
-      console.log('Room fetched successful:', result);
-      roomData = result;
-      showRoomDetails(result);
-    } else {
-      console.error('Room fetched failed:', result);
-      alert('Error fetching the detail of room!');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('An error occurred. Please check your connection and try again.');
-  }
-};
-
-// stripe payment process
-
-async function call_API(method, url, data, token) {
-  try {
-    const response = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    return response;
-  } catch (error) {
-    console.error("Error occurred", error);
-  }
-};
-
-// Initialize Stripe with your publishable key
-const stripe = Stripe("pk_live_51JjVtSBbKKU54ViHyGL7tzxCKvfYMjJsOR3WTUaAupzsF7kXE9JpQQ2VSGKpUkntjSASixKsDBSDRN1AjTXdbtMG00UwtRZNFq");
-
-// Create an instance of Stripe Elements
-const elements = stripe.elements();
-const cardElement = elements.create("card", {
-  style: {
-    base: {
-      color: "#32325d",
-      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-      fontSmoothing: "antialiased",
-      fontSize: "16px",
-      "::placeholder": { color: "#aab7c4" },
-    },
-    invalid: { color: "#fa755a", iconColor: "#fa755a" },
-  },
-});
-cardElement.mount("#card-element");
-
-const form_ = document.getElementById("payment-form");
-
-const booking_data = {
-  hotelId: '670e1ef66f3a7a626cd938f0',
-  roomId: '670e1ef66f3a7a626cd938f0',
-  checkIn: "2024-11-01T15:00:00.000Z",
-  checkOut: "2024-11-05T11:00:00.000Z",
-  adults: 2,
-  children: 1,
-  totalPrice: 120,
-};
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzEwZGExOWFiOGYwMGU3NTFjMDhkYTIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcyOTMzNzYwMiwiZXhwIjoxNzI5NDI0MDAyfQ.lUEkrQP_Ln6FQ5p4PU4pBG57ijD1z8_jV8C9dVWEfGw";
-
-form_.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  const response = await call_API(
-    "POST",
-    "https://sogo-backend.onrender.com/api/booking",
-    booking_data,
-    token
-  );
-  const data = await response.json();
-
-  const { error } = await stripe.confirmCardPayment(
-    data.clientSecret,
-    {
-      payment_method: { card: cardElement },
-    }
-  );
-
-  if (error) {
-    document.getElementById("error-message").textContent = error.message;
-
-    const status_data = {
-      hotelId: booking_data.hotelId,
-      roomId: booking_data.roomId,
-      status: "canceled",
-    };
-    const cancelResponse = await call_API(
-      "PUT",
-      "https://sogo-backend.onrender.com/api/booking/status/update",
-      status_data,
-      token
-    );
-    console.log(await cancelResponse.json());
-  }
-  else {
-    const status_data = {
-      hotelId: booking_data.hotelId,
-      roomId: booking_data.roomId,
-      status: "confirmed",
-    };
-    const confirmResponse = await call_API(
-      "PUT",
-      "https://sogo-backend.onrender.com/api/booking/status/update",
-      status_data,
-      token
-    );
-    console.log(await confirmResponse.json());
-
-    alert("Payment successful!");
-    $("#paymentModal").modal("hide");
   }
 });

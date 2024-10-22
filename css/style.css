@@ -1934,3 +1934,22 @@ a:hover {
     width: 108px;
   }
 }
+
+.list-group-item:hover{
+  cursor: pointer;
+}
+
+#location, #checkin_date, #checkout_date, #adults, #children{
+  color: black;
+}
+
+/* hide the arrow of adults and child button */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#adults-decrement, #adults-increment, #children-increment, #children-decrement{
+  background-color: white;  
+}
