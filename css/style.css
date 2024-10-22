@@ -1896,14 +1896,14 @@ a:hover {
   .signup-yellow-line {
     width: 100px;
   }
-  .form__div{
+  .form__div {
     height: 62vh;
   }
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
   /* signup form css */
-  .form-div{
+  .form-div {
     height: 55vh;
   }
 
@@ -1927,29 +1927,80 @@ a:hover {
   }
 
   /* login form css */
-  .form__div{
+  .form__div {
     height: 59vh;
   }
-  .signup-yellow-line{
+  .signup-yellow-line {
     width: 108px;
   }
 }
 
-.list-group-item:hover{
+.list-group-item:hover {
   cursor: pointer;
 }
 
-#location, #checkin_date, #checkout_date, #adults, #children{
+#location,
+#checkin_date,
+#checkout_date,
+#adults,
+#children {
   color: black;
 }
 
 /* hide the arrow of adults and child button */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-#adults-decrement, #adults-increment, #children-increment, #children-decrement{
-  background-color: white;  
+#adults-decrement,
+#adults-increment,
+#children-increment,
+#children-decrement {
+  background-color: white;
+}
+
+/* hotels css */
+
+.searched-hotel-info-section {
+  background-color: #f0f4f8;
+}
+
+.hotel-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #ffffff; /* White background for the card */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px; /* Space between cards */
+}
+.hotel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+.hotel-card img {
+  width: 300px;
+  height: auto;
+}
+.hotel-details {
+  padding-left: 20px; /* Space between image and text */
+}
+.hotel-card h4 {
+  color: #007bff; /* Bootstrap primary color */
+  font-size: 1.5rem; /* Larger font size for title */
+}
+.rating {
+  color: #ffcc00; /* Gold color for ratings */
+}
+.price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #28a745; /* Green color for price */
+}
+.old-price {
+  text-decoration: line-through;
+  color: #888; /* Grey color for old price */
 }

@@ -547,42 +547,6 @@ let previousSearch = {
   checkOut: null
 };
 
-// if (checkElement("#search-availability")) {
-//   document.getElementById('search-availability').addEventListener('submit', async function (e) {
-//     e.preventDefault();
-
-//     try {
-//       const location = document.getElementById('location').value;
-//       const checkIn = document.getElementById('checkin_date').value;
-//       const checkOut = document.getElementById('checkout_date').value;
-//       const adults = document.getElementById('adults').value;
-//       const children = document.getElementById('children').value;
-//       const childrenAges = getChildrenData();
-//       const queryString = new URLSearchParams(childrenAges).toString();
-
-
-//       // Check if values have changed or not
-//       if (location === previousSearch.location && checkIn === previousSearch.checkIn && checkOut === previousSearch.checkOut) {
-//         return;
-//       }
-
-//       // Update previous search values
-//       previousSearch = { location, checkIn, checkOut };
-
-//       // Validate form inputs
-//       if (!location || !checkIn || !checkOut) {
-//         console.warn('Please fill out all fields.');
-//         return;
-//       }
-
-//       window.location.href = `hotels.html?location=${location}&checkin=${checkIn}&checkout=${checkOut}&adults=${adults}&children=${children}&childrenAges=${queryString}#searched_hotel`;
-
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   });
-// };
-
 if (checkElement("#search-availability")) {
   document.getElementById('search-availability').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -620,8 +584,7 @@ if (checkElement("#search-availability")) {
       console.error('Error:', error);
     }
   });
-}
-
+};
 
 // Clear the hash on page load (after refresh)
 window.addEventListener('load', function () {

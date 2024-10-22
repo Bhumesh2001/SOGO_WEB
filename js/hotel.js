@@ -1,8 +1,10 @@
-// soaprequest credential
-const AGENCY_ID = 148535;
-const USER_NAME = "REISENBOOKINGXMLTEST";
-const PASSWORD = "JHJDO58X0EV";
-const BASE_URL = 'https://reisenbooking.xml.goglobal.travel/xmlwebservice.asmx';
+// go to the searched hotels section
+window.addEventListener('load', function () {
+    const element = document.querySelector('#searched_hotel');
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 
 // Function to get query parameters from the URL
 function getQueryParams() {
@@ -19,7 +21,7 @@ function getQueryParams() {
     const childrenAges = {};
     for (const [key, value] of params.entries()) {
         if (key.startsWith('age')) {
-            childrenAges[key] = value;  // e.g., { age1: '5', age2: '7' }
+            childrenAges[key] = value;
         }
     }
 
@@ -27,151 +29,73 @@ function getQueryParams() {
 };
 
 // log the query params data
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const { location, checkIn, checkOut, adults, children, childrenAges } = getQueryParams();
 
-    // Example: Displaying the search details
-    console.log('Search Details:');
-    console.log(`Location: ${location}`);
-    console.log(`Check-In Date: ${checkIn}`);
-    console.log(`Check-Out Date: ${checkOut}`);
-    console.log(`Adults: ${adults}`);
-    console.log(`Children: ${children}`);
+    const nights = Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
 
-    const nights = Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-    const ArrivalDate = checkIn;
-
-    // Display children ages
-    console.log('Children Ages:');
+    let agesArr = [];
     for (const [key, age] of Object.entries(childrenAges)) {
-        console.log(`${key}: ${age}`);
+        agesArr.push(parseInt(age));
     }
-
+    const data = await searchHotels(
+        'https://sogo-backend.onrender.com/api/hotel',
+        { location, checkIn, checkOut, adults, children, nights, childrenAges: agesArr },
+    );
+    showHotels(data);
 });
-
-// go to the searched hotels section
-window.addEventListener('load', function () {
-    const element = document.querySelector('#searched_hotel');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-    }
-});
-
-// find cityid by city name
-function findCityIdByCityName() {
-    try {
-
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 // search hotels
-async function searchHotels() {
+async function searchHotels(url, searchData) {
     try {
-        const soapRequest = `<?xml version="1.0" encoding="utf-8"?>
-<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                 xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-                 xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-    <soap12:Body>
-        <MakeRequest xmlns="http://www.goglobal.travel/">
-            <requestType>11</requestType>
-            <xmlRequest><![CDATA[
-                <Root>
-                    <Header>
-                        <Agency>${AGENCY_ID}</Agency>
-                        <User>${USER_NAME}</User>
-                        <Password>${PASSWORD}</Password>
-                        <Operation>HOTEL_SEARCH_REQUEST</Operation>
-                        <OperationType>Request</OperationType>
-                    </Header>
-                    <Main Version="2.3" ResponseFormat="JSON" IncludeGeo="false" Currency="USD">
-                        <MaximumWaitTime>15</MaximumWaitTime>
-                        <Nationality>GB</Nationality>
-                        <Hotels>
-                            <HotelId>13844</HotelId>
-                        </Hotels>
-                        <ArrivalDate>2024-11-05</ArrivalDate>
-                        <Nights>3</Nights>
-                        <Rooms>
-                            <Room Adults="2" RoomCount="1" ChildCount="0"/>
-                            <Room Adults="1" RoomCount="1" ChildCount="2">
-                                <ChildAge>9</ChildAge>
-                                <ChildAge>5</ChildAge>
-                            </Room>
-                        </Rooms>
-                    </Main>
-                </Root>
-            ]]></xmlRequest>
-        </MakeRequest>
-    </soap12:Body>
-</soap12:Envelope>`;
-
-        const headers = {
-            'Content-Type': 'application/soap+xml; charset=utf-8',
-            'API-Operation': 'HOTEL_SEARCH_REQUEST',
-            'API-AgencyID': AGENCY_ID,
-        };
-
-        // send soup request
-        const response = await axios.post(BASE_URL, soapRequest, { headers });
-
-        // Parse XML into a DOM Document
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(response.data, "text/xml");
-
-        // Convert XML to JSON
-        const result = xmlToJson(xmlDoc);
-        console.log('SOAP request successful:', result);
-
-        // Display JSON in the browser console
-        console.log(JSON.stringify(result, null, 4));
-
+        const response = await axios.post(url, searchData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
     } catch (error) {
-        console.error(error);
+        console.error('Error during hotel search:', error.message);
+        throw error;
     }
 };
-searchHotels();
 
 // show hotels on frontend
-function showHotels() {
+function showHotels(hotel_data) {
     try {
-
+        console.log(hotel_data, 'hotel_data....!');
     } catch (error) {
         console.error(error);
     }
 };
 
-// Helper function to convert XML to JSON
-function xmlToJson(xml) {
-    let obj = {};
-    if (xml.nodeType === 1) { // element
-        if (xml.attributes.length > 0) {
-            obj["@attributes"] = {};
-            for (let j = 0; j < xml.attributes.length; j++) {
-                const attribute = xml.attributes.item(j);
-                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-            }
-        }
-    } else if (xml.nodeType === 3) { // text
-        obj = xml.nodeValue;
-    }
+// render hotels
+function renderHotels() {
+    const hotelContainer = document.querySelector('.row');
+    hotelContainer.innerHTML = ''; // Clear previous content
 
-    if (xml.hasChildNodes()) {
-        for (let i = 0; i < xml.childNodes.length; i++) {
-            const item = xml.childNodes.item(i);
-            const nodeName = item.nodeName;
-            if (typeof obj[nodeName] === "undefined") {
-                obj[nodeName] = xmlToJson(item);
-            } else {
-                if (typeof obj[nodeName].push === "undefined") {
-                    const old = obj[nodeName];
-                    obj[nodeName] = [];
-                    obj[nodeName].push(old);
-                }
-                obj[nodeName].push(xmlToJson(item));
-            }
+    hotels.forEach(hotel => {
+        let oldPriceHTML = '';
+        if (hotel.oldPrice) {
+            oldPriceHTML = `<span class="old-price">₹${hotel.oldPrice}</span>`;
         }
-    }
-    return obj;
+
+        const hotelCard = `
+        <div class="col-md-12 mb-4">
+          <div class="hotel-card d-flex p-3">
+            <img class="img-fluid" src="${hotel.img}" alt="${hotel.name}" />
+            <div class="hotel-details">
+              <h4>${hotel.name}</h4>
+              <p><strong>Location:</strong> ${hotel.location}</p>
+              <p><strong>Facilities:</strong> ${hotel.facilities}</p>
+              <div class="rating">Rating: ⭐⭐⭐⭐⭐ ${hotel.rating}/10 (${hotel.reviews} reviews)</div>
+              <p class="price">Price: ₹${hotel.price} ${oldPriceHTML}</p>
+              <p>Total: ₹${hotel.total} (includes taxes & fees)</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+        hotelContainer.innerHTML += hotelCard;
+    });
 };
