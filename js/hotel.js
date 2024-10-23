@@ -64,8 +64,7 @@ async function searchHotels(url, searchData) {
         'Content-Type': 'application/json',
       }
     });
-    console.log(response.data, '====');
-    return response.data;
+    return JSON.parse(response.data);
   } catch (error) {
     console.error('Error during hotel search:', error.message);
     throw error;
