@@ -454,7 +454,7 @@ document.getElementById('signup-form_').addEventListener('submit', async functio
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'signup-form_',
-    'http://localhost:5001/api/user/signup',
+    'https://sogo-backend.onrender.com/api/user/signup',
   );
   if (data) {
     signup_Form.classList.add('d-none');
@@ -471,7 +471,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
   event.preventDefault();
   const data = await sendFormDataAsJSON(
     'login-form',
-    'http://localhost:5001/api/user/login',
+    'https://sogo-backend.onrender.com/api/user/login',
   );
   if (data) {
     closeForm();
@@ -486,7 +486,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 // check this user is loggedin or not
 async function isLoggedIn() {
   try {
-    const response = await fetch('http://localhost:5001/api/user/check-login', {
+    const response = await fetch('https://sogo-backend.onrender.com/api/user/check-login', {
       method: 'GET',
       credentials: 'include'
     });
@@ -502,7 +502,7 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const otp = document.getElementById('otp').value;
 
-  const data = await verifyOTP({ email, otp }, 'http://localhost:5001/api/user/verify-otp');
+  const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
   if (data) {
     closeForm();
     form.reset();
@@ -512,20 +512,20 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
 });
 
 // popup login/signup form
-// window.onload = async function () {
-//   const response = isLoggedIn();
+window.onload = async function () {
+  const response = isLoggedIn();
 
-//   if (response.ok) {
-//     return;
-//   }
+  if (response.ok) {
+    return;
+  }
 
-//   setTimeout(function () {
-//     overlay.style.display = 'block';
-//     loginForm.classList.remove('d-none');
-//     loginForm.classList.add('d-block');
-//     document.body.style.overflow = 'hidden';
-//   }, 3000);
-// };
+  setTimeout(function () {
+    overlay.style.display = 'block';
+    loginForm.classList.remove('d-none');
+    loginForm.classList.add('d-block');
+    document.body.style.overflow = 'hidden';
+  }, 3000);
+};
 
 // check element is exist or not of particular html page
 function checkElement(selector) {
