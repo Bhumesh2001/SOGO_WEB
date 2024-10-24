@@ -308,31 +308,64 @@ function getChildrenData() {
 };
 
 // location suggestion
+let timeout = null;
+const locationCache = new Map();
+const CACHE_EXPIRATION_TIME = 300000;
+
 $("#location").on("input", function () {
-  const query = $(this).val();
-  if (query.length > 2) {
-    $.getJSON(
-      `https://photon.komoot.io/api/?q=${query}&limit=5`,
-      function (data) {
-        let suggestions = "";
-        data.features.forEach(function (place) {
-          const placeName =
-            place.properties.name + ", " + place.properties.country;
-          suggestions += `<li class="list-group-item" onclick="selectLocation('${placeName}')">${placeName}</li>`;
-        });
-        $("#location-suggestions").html(suggestions).show();
-      }
-    );
-  } else {
-    $("#location-suggestions").hide();
-  }
+    clearTimeout(timeout);
+    const query = $(this).val().trim();
+    
+    if (query.length > 2) {
+        // Check if results are cached
+        const cachedData = locationCache.get(query);
+        if (cachedData && (Date.now() - cachedData.timestamp < CACHE_EXPIRATION_TIME)) {
+            displaySuggestions(cachedData.suggestions);
+            return;
+        }
+
+        timeout = setTimeout(() => {
+            // Show loading state
+            $("#location-suggestions").html('<li class="list-group-item">Loading...</li>').show();
+
+            $.getJSON(`https://photon.komoot.io/api/?q=${query}&limit=5`)
+                .done(function (data) {
+                    const suggestions = data.features.map(place => {
+                        const placeName = `${place.properties.name}, ${place.properties.country}`;
+                        return `<li class="list-group-item" onclick="selectLocation('${placeName}')">${placeName}</li>`;
+                    });
+
+                    // Cache results with a timestamp
+                    locationCache.set(query, {
+                        suggestions: suggestions,
+                        timestamp: Date.now()
+                    });
+
+                    // Display suggestions
+                    displaySuggestions(suggestions);
+                })
+                .fail(function () {
+                    console.error("API request failed");
+                    $("#location-suggestions").html('<li class="list-group-item">No results found</li>').show();
+                });
+        }, 200); // Debounce for 300 milliseconds
+    } else {
+        $("#location-suggestions").hide();
+    }
 });
 
+// display suggestion
+function displaySuggestions(suggestions) {
+    $("#location-suggestions").html(suggestions.join('')).show();
+};
+
+// select location 
 function selectLocation(location) {
   $("#location").val(location);
   $("#location-suggestions").hide();
 };
 
+// hide suggesion
 $(document).click(function () {
   $("#location-suggestions").hide();
 });
@@ -356,6 +389,7 @@ overlay.addEventListener('click', function () {
   document.body.style.overflow = 'auto';
 });
 
+// close the form 
 function closeForm() {
   overlay.style.display = 'none';
   loginForm.classList.remove('d-block');
@@ -416,7 +450,7 @@ async function sendFormDataAsJSON(formId, url) {
     }
 
     const data = await response.json();
-    console.log('Success:', data);
+    // console.log('Success:', data);
     return data;
 
   } catch (error) {
@@ -501,6 +535,7 @@ async function isLoggedIn() {
 document.getElementById('verify-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const otp = document.getElementById('otp').value;
+  console.log(otp, email);
 
   const data = await verifyOTP({ email, otp }, 'https://sogo-backend.onrender.com/api/user/verify-otp');
   if (data) {
@@ -571,6 +606,7 @@ if (checkElement("#search-availability")) {
       // Validate form inputs
       if (!location || !checkIn || !checkOut || new Date(checkIn) >= new Date(checkOut)) {
         console.warn('Please fill out all fields and ensure the check-out date is after the check-in date.');
+        alert('Please fill out all fields and ensure the check-out date is after the check-in date.');
         return;
       }
 
