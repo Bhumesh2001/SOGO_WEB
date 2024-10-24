@@ -1,3 +1,7 @@
+let checkIn_;
+let checkOut_;
+let adults_;
+
 // go to the searched hotels section
 window.addEventListener('load', function () {
   const element = document.querySelector('#searched_hotel');
@@ -40,20 +44,21 @@ function getQueryParams() {
 
 // log the query params data
 document.addEventListener('DOMContentLoaded', async function () {
-  const { location, checkIn, checkOut, adults, children, childrenAges } = getQueryParams();
+  const { location, checkIn, checkOut, adults, childrenAges } = getQueryParams();
 
-  const nights = Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24));
+  checkIn_ = checkIn;
+  checkOut_ = checkOut;
+  adults_ = adults;
 
-  let agesArr = [];
-  for (const [key, age] of Object.entries(childrenAges)) {
-    agesArr.push(parseInt(age));
+  try {
+    let data = await searchHotels(
+      'https://sogo-backend.onrender.com/api/hotel/all',
+      { location, checkIn, checkOut, adults, children: childrenAges },
+    );
+    generateHotelCards(data);
+  } catch (error) {
+    console.error(error);
   }
-  const data = await searchHotels(
-    'https://sogo-backend.onrender.com/api/hotel',
-    { location, checkIn, checkOut, adults, children, nights, childrenAges: agesArr },
-  );
-  generateHotelCards(data);
-
 });
 
 // search hotels
@@ -64,10 +69,12 @@ async function searchHotels(url, searchData) {
         'Content-Type': 'application/json',
       }
     });
-    return JSON.parse(response.data);
+    console.log(response.data, '===');
+
+    return response.data;
   } catch (error) {
     console.error('Error during hotel search:', error.message);
-    throw error;
+    return error;
   }
 };
 
@@ -78,58 +85,85 @@ function generateHotelCards(jsonResponse) {
 
   const removeHtmlTags = str => str.replace(/<\/?[^>]+(>|$)/g, "");
 
-  const hotel_data = jsonResponse.Hotels.map(hotel => {
-    const { HotelName = 'Unknown', Location = 'Unknown', HotelImage = '', Offers = [] } = hotel;
+  if (jsonResponse.status !== 200) {
+    hotelCardsContainer.innerHTML = `<h3 class="text-center mb-4">${jsonResponse.message}</h3>`;
+  } else {
+    const hotel_data = jsonResponse.Hotels.map(hotel => {
+      const { HotelName = 'Unknown', Location = 'Unknown', HotelImage = '', Offers = [] } = hotel;
 
-    let minTotalPrice = Infinity;
-    let maxStar = 0;
-    let bestFacilities = '';
+      let minTotalPrice = Infinity;
+      let maxStar = 0;
+      let bestFacilities = '';
 
-    Offers.forEach(room => {
-      minTotalPrice = Math.min(minTotalPrice, room.TotalPrice || Infinity);
-      maxStar = Math.max(maxStar, parseInt(room.Category) || 0);
+      Offers.forEach(room => {
+        minTotalPrice = Math.min(minTotalPrice, room.TotalPrice || Infinity);
+        maxStar = Math.max(maxStar, parseInt(room.Category) || 0);
 
-      const roomFacilities = (room.Special ? removeHtmlTags(room.Special).trim().split(',').map(fac => fac.trim()) : [])
-        .filter(facility => facility !== "**PACKAGE RATE**");
+        const roomFacilities = (room.Special ? removeHtmlTags(room.Special).trim().split(',').map(fac => fac.trim()) : [])
+          .filter(facility => facility !== "**PACKAGE RATE**");
 
-      if (roomFacilities.length > bestFacilities.split(',').length) {
-        bestFacilities = roomFacilities.join(', ');
-      }
+        if (roomFacilities.length > bestFacilities.split(',').length) {
+          bestFacilities = roomFacilities.join(', ');
+        }
+      });
+
+      return {
+        HotelCode: hotel.HotelCode,
+        HotelName,
+        Location,
+        HotelImage,
+        HotelFacilities: bestFacilities.split(',').map(fac => fac.trim()),
+        TotalPrice: minTotalPrice === Infinity ? 0 : minTotalPrice,
+        Star: maxStar
+      };
     });
 
-    return {
-      HotelName,
-      Location,
-      HotelImage,
-      HotelFacilities: bestFacilities.split(',').map(fac => fac.trim()),
-      TotalPrice: minTotalPrice === Infinity ? 0 : minTotalPrice,
-      Star: maxStar
-    };
-  });
-
-  hotelCardsContainer.innerHTML = hotel_data.map(hotel => `
-    <div class="col-12 mb-4">
-      <div class="hotel-card p-3 mb-0">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <img class="img-fluid rounded" src="${hotel.HotelImage}" alt="${capitalizeWords(hotel.HotelName)}" />
-          </div>
-          <div class="col-12 col-sm-8">
-            <div class="hotel-details">
-              <h4 class="mt-lg-0 mt-md-0 mt-3 fw-bold">${capitalizeWords(hotel.HotelName)}</h4>
-              <p><strong><i class="fas fa-map-marker-alt"></i></strong> ${capitalizeWords(hotel.Location)}</p>
-              <p><strong>Facilities:</strong> ${hotel.HotelFacilities.slice(0, 4).join(", ")}</p>
-              <div class="rating">Star: ${hotel.Star}</div>
-              <p class="price text-bold">$${hotel.TotalPrice} 
-                ${hotel.oldPrice ? `<span class="old-price">₹${hotel.oldPrice}</span>` : ""}
-              </p>
-              <p>Total: ₹${hotel.TotalPrice} (includes taxes & fees)</p>
+    hotelCardsContainer.innerHTML = hotel_data.map(hotel => `
+      <div class="col-12 mb-4">
+        <a href="#" 
+          data-id="${hotel.HotelCode}" 
+          data-checkIn="${checkIn_}" 
+          data-checkOut="${checkOut_}" 
+          data-adults="${adults_}">
+          
+          <div class="hotel-card p-3 mb-0">
+            <div class="row">
+              <div class="col-12 col-sm-4">
+                <img 
+                  class="img-fluid rounded" 
+                  src="${hotel.HotelImage}" 
+                  alt="${capitalizeWords(hotel.HotelName)}" 
+                />
+              </div>
+              <div class="col-12 col-sm-8">
+                <div class="hotel-details">
+                  <h4 class="mt-lg-0 mt-md-0 mt-3 fw-bold">
+                    ${capitalizeWords(hotel.HotelName)}
+                  </h4>
+                  <p>
+                    <strong><i class="fas fa-map-marker-alt"></i></strong> 
+                    ${capitalizeWords(hotel.Location)}
+                  </p>
+                  <p>
+                    <strong>Facilities:</strong> 
+                    ${hotel.HotelFacilities.slice(0, 4).join(", ")}
+                  </p>
+                  <div class="rating">Star: ${hotel.Star}</div>
+                  <p class="price text-bold">
+                    $${hotel.TotalPrice} 
+                    ${hotel.oldPrice ? `<span class="old-price">₹${hotel.oldPrice}</span>` : ""}
+                  </p>
+                  <p>Total: $${hotel.TotalPrice} (includes taxes & fees)</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
-    </div>
-  `).join('');
+    `).join('');
+
+  }
+
 };
 
 // capitalize every word
@@ -140,3 +174,30 @@ function capitalizeWords(str) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
+
+// redirect to detail page of particular hotel
+const hotelCardsContainer = document.getElementById('hotel-cards');
+hotelCardsContainer.addEventListener('click', function (event) {
+  // Check if the clicked element is an anchor tag
+  const clickedAnchor = event.target.closest('a');
+
+  // If the click event happened on an anchor tag
+  if (clickedAnchor) {
+    // Get the attributes of the clicked anchor tag
+    const hotelId = clickedAnchor.getAttribute('data-id');
+    const checkIn = clickedAnchor.getAttribute('data-checkIn');
+    const checkOut = clickedAnchor.getAttribute('data-checkOut');
+    const adults = clickedAnchor.getAttribute('data-adults');
+
+    // Do something with the values
+    console.log(`Hotel ID: ${hotelId}`);
+    console.log(`Check-In: ${checkIn}`);
+    console.log(`Check-Out: ${checkOut}`);
+    console.log(`Adults: ${adults}`);
+
+    // Prevent default anchor tag behavior (e.g., navigation)
+    event.preventDefault();
+
+    window.location.href = `detail.html?hotelid=${hotelId}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${adults}`
+  }
+});

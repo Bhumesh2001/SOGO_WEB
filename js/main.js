@@ -512,20 +512,20 @@ document.getElementById('verify-btn').addEventListener('click', async (e) => {
 });
 
 // popup login/signup form
-window.onload = async function () {
-  const response = isLoggedIn();
+// window.onload = async function () {
+//   const response = isLoggedIn();
 
-  if (response.ok) {
-    return;
-  }
+//   if (response.ok) {
+//     return;
+//   }
 
-  setTimeout(function () {
-    overlay.style.display = 'block';
-    loginForm.classList.remove('d-none');
-    loginForm.classList.add('d-block');
-    document.body.style.overflow = 'hidden';
-  }, 3000);
-};
+//   setTimeout(function () {
+//     overlay.style.display = 'block';
+//     loginForm.classList.remove('d-none');
+//     loginForm.classList.add('d-block');
+//     document.body.style.overflow = 'hidden';
+//   }, 3000);
+// };
 
 // check element is exist or not of particular html page
 function checkElement(selector) {
